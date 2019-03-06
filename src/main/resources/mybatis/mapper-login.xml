@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.mapper.LoginsMapper">
+
+    <select id="getLogin" resultType="com.jk.bean.Staff">
+
+        select * from t_staff where account=#{account} and password = #{password}
+    </select>
+    <!--<insert id="toRegist">
+        insert into t_user (loginAcct,userPswd,userName,email,createTime)
+        values (#{loginAcct},#{userPswd},#{userName},#{email},now()
+        )
+    </insert>
+    <select id="getloginAcct" resultType="com.jk.bean.Vip">
+
+        select * from t_user where loginAcct=#{loginAcct}
+    </select>-->
+
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.mapper.StaffMapper">
+    <!--void addStaff(Staff staff);-->
+    <insert id="addStaff">
+        insert into t_staff(username,account,password,headimg) value(
+        #{username}, #{account}, #{password},#{headimg})
+    </insert>
+    <!--List<Staff> getPageList(Staff staff);-->
+    <select id="getPageList" resultType="com.jk.bean.Staff">
+        select * from t_staff
+    </select>
+    <!--void delStaff(String id);-->
+    <delete id="delStaff">
+        delete from t_staff where id=#{id}
+    </delete>
+    <!--List<Staff> queryStaff(Integer id);-->
+    <select id="queryStaff" resultType="com.jk.bean.Staff">
+        select * from t_staff where id = #{id}
+    </select>
+    <!--StaffMapper.updateStaff(staff);-->
+    <update id="updateStaff">
+        update t_staff set username=#{username},account=#{account},password=#{password},headimg=#{headimg} where id=#{id}
+    </update>
+</mapper>

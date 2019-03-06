@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title><!-- 导入 jquery包  -->
+    <script src="/js/jquery-2.1.1.min.js"></script>
+    <!--引入easyui的样式 -->
+    <link rel="stylesheet" href="/js/easyui1.5/themes/default/easyui.css" type="text/css"></link>
+    <link rel="stylesheet" href="/js/easyui1.5/themes/icon.css" type="text/css"></link>
+    <script type="text/javascript" src="/js/easyui1.5/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/js/easyui1.5/locale/easyui-lang-zh_CN.js"></script>
+    <script src="/js/easyui1.5/jquery.easyui.min.js"></script>
+    <script src="/js/uploadify/jquery.uploadify.min.js"></script>
+    <link rel="stylesheet" href="/js/uploadify/uploadify.css">
+    <script type="text/javascript" th:inline="none">
+        $(function () {
+            startDatagried();
+            $('#dialog').dialog('close');
+            preFile();
+        })
+        //-----------------------------------------查询
+        function startDatagried() {
+            $('#dg').datagrid({
+                url:'/staff/getPageList',
+                pagination:true, //开启分页工具栏
+                striped: true, //斑马线效果
+                toolbar: '#tb',
+                checkOnSelect: false, //false，当用户仅在点击该复选框的时候才会呗选中或取消
+                pageList:[1,3,6,12],//下拉框条数
+                pageSize: 6, //默认显示多少条 这个值一定在pagelist中存在
+                columns: [[
+                    {field: 'aaa', title: 'bbb', width: 50, checkbox: true}, //全选反选
+                    {field: 'id', title: '编号', width: 50, align: 'center'},
+                    {field: 'username', title: '员工名称', width: 100, align: 'center'},
+                    {field: 'account', title: '员工账号', width: 100, align: 'center'},
+                    {field: 'password', title: '密码', width: 100, align: 'center'},
+                    {field: 'headimg', title: '员工头像', width: 100, align: 'center',
+                        formatter: function (value,row)
+                        {return '<a href="javascript:void(0)" onclick="queryimg('+row.id+')"><img width="100px" height="70px" src="/upload/' + value + '"/></a>'
+                        }
+                    },
+                    {field: 'sds', title: '操作', width: 150, align: 'center',
+                        formatter: function (value, row) {
+                            var temp = "<a href='javascript:void(0)' onclick='update(" + row.id + ")' >修改</a>";
+                            temp += "|<a href='javascript:void(0)' onclick='del(" + row.id + ")' >删除</a>";
+                            return temp;
+                        }
+                    }
+                ]]
+            });
+        }
+        function update(id){
+            $.ajax({
+                url:"/staff/queryStaff",
+                type:"POST",
+                data:{id:id},
+                success:function(data){
+                    $("#dialog").dialog('open');
+                    $("#form-id").form("load",data);
+                    $("#testimg").prop("src","/upload/"+data.headimg)
+                },
+                error:function(){
+                    alert("ajax访问失败了,查看控制台");
+                }
+            });
+        }
+        function del(id){
+            $.ajax({
+                url:"/staff/delStaff",
+                type:"POST",
+                data:{id:id},
+                success:function(result){
+                    $("#dg").datagrid('reload');//reload 会重新请求数据 但会停留在当前页
+                    $.messager.show({
+                        title: '消息',
+                        msg: '删除成功!!',
+                        timeout: 1000,//提示框出来的时间
+                        showType: 'slide'
+                    });
+                },
+                error:function(){
+                    alert("失败了");
+                }
+            });
+        }
+        function xinzeng(){//打开新增弹框
+            $('#dialog').dialog('open');
+            clearFormData();
+        }
+
+        function clearFormData(){
+            $("#form-id").form('clear'); //清空form组件内容
+        }
+        //图片控件
+        function preFile() {
+//上传插件
+            $("#uploadify").uploadify({
+                //插件自带  不可忽略的参数
+                'swf': '/js/uploadify/uploadify.swf',
+                //前台请求后台的url 不可忽略的参数                //*****要修改路经 !!!!!!!!!
+                'uploader': '/staff/upload',
+                //给div的进度条加背景 不可忽略
+                'queueID': 'fileQueue',
+                //上传文件文件名 !!!!!!!与后台接口参数名字需要完全一致!!!!!!!!
+                'fileObjName': 'file',
+                //给上传按钮设置文字
+                'buttonText': '上传图片',
+                //设置文件是否自动上传
+                'auto': true,
+                //可以同时选择多个文件 默认为true  不可忽略
+                'multi': false,
+                //上传后队列是否消失
+                'removeCompleted': true,
+                //队列消失时间
+                'removeTimeout': 1,
+                //上传文件的个数，项目中一共可以上传文件的个数
+                'uploadLimit': -1,
+                'onFallback': function () {
+                    alert("浏览器不支持,请更换其他浏览器,或打开Flash插件");
+                },
+                //上传失败
+                'onUploadError': function () {
+                    alert("上传失败");
+                },
+                //成功回调函数 file：文件对象。data后台输出数据
+                'onUploadSuccess': function (file, data, response) {
+                    var imgurl = "/upload/" + data;
+                    //给img框赋值进行展示
+                    $("#testimg").attr("src", imgurl);
+                    //给隐藏的文本框赋值 传到后台
+                    $('#hideImg').val(data);
+                }
+            });
+        }
+        function addInfo(){
+            $("#form-id").form({
+                url:"/staff/addStaff",
+                success:function(data){   //在表单提交成功以后触发 data是后台返回的数据
+                    $("#dialog").dialog('close'); //关闭对话框
+                    $("#dg").datagrid('reload');// //重新加载数据     reload 会重新请求数据 但会停留在当前页
+                }
+            });
+            $("#form-id").form('submit');
+        }
+
+    </script>
+
+
+
+</head>
+<body>
+<table id="dg" fit=true></table>
+<div id="tb">
+    <a id="btn" onclick="xinzeng()" class="easyui-linkbutton" data-options="iconCls:'icon-add'" target="_blank">新增员工</a>
+</div>
+<div id="dialog"  class="easyui-dialog" title="My Dialog" style="width:800px;height:300px;"
+     data-options="iconCls:'icon-save',resizable:true,modal:true,
+			buttons:[{
+				text:'保存',
+				iconCls:'icon-ok',
+				handler:function(){
+					addInfo();//调用另一个方法
+				}
+			},{
+				text:'取消',
+				iconCls:'icon-clear',
+				handler:function(){
+					clearFormData();//新增之后 清除表单数据
+					$('#dialog').dialog('close'); //关闭对话框
+				}
+			}]">
+
+    <!-- 表单数据 -->
+    <form id="form-id">
+        <input  name="id"  type="hidden">
+        用户名称:<input id="username"  name="username" class="easyui-textbox"><br/>
+        用户账号:<input id="account" name="account" class="easyui-textbox"><br/>
+        密码:<input id="password" name="password" class="easyui-textbox"><br/>
+        用户头像:
+        <input name="headimg" id="hideImg" type="hidden">
+        <input id="uploadify" type="file">
+        <div id="fileQueue"></div>
+        <img id="testimg" width="66">
+        <!-- 上传完显示的图片  -->
+    </form>
+</div>
+</body>
+</html>

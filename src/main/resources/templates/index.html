@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title><!-- 导入 jquery包  -->
+    <script src="/js/jquery-2.1.1.min.js"></script>
+    <!--引入easyui的样式 -->
+    <link rel="stylesheet" href="/js/easyui1.5/themes/default/easyui.css" type="text/css"></link>
+    <link rel="stylesheet" href="/js/easyui1.5/themes/icon.css" type="text/css"></link>
+    <script type="text/javascript" src="/js/easyui1.5/jquery.easyui.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            getTree();
+        })
+        function getTree(){
+            $("#tt").tree({
+                url:'/tree/getTree',
+                lines:true,
+                onClick:function(node){
+                    if(node.children!=null&&node.children.length>0||node.state=='closed'){
+                        return ;
+                    }
+                    var a=$("#aa").tabs('exists',node.text);
+                    if(a){
+                        $("#aa").tabs('select',node.text);
+                    }else{
+                        $("#aa").tabs('add',{
+                            closable:true,
+                            title:node.text,
+                            content:createJsp(node.url)
+                        })
+                    }
+                }
+
+            })
+        }
+        function createJsp(url){
+            return '<iframe scrolling="auto" frameborder="0"  src="/tree/toView?url='+ url + '" style="width:100%;height:100%;"></iframe>';
+        }
+    </script>
+
+</head>
+<body class="easyui-layout">
+<div data-options="region:'west',title:'左部',split:true" style="width:250px;">
+    <ul id="tt"></ul>
+</div>
+<div data-options="region:'center',title:'中间'" style="padding:5px;background:#eee;">
+    <!-- 选项卡 -->
+    <div id="aa" class="easyui-tabs" fit=true>
+
+    </div>
+</div>
+</body>
+</html>

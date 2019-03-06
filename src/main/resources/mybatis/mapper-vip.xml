@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.mapper.VipMapper">
+
+    <insert id="addVip">
+        insert into t_vip(vipname,vipaccount,vippassword,vipheadimg) value(
+        #{vipname}, #{vipaccount}, #{vippassword},#{vipheadimg})
+    </insert>
+
+    <select id="getPageList" resultType="com.jk.bean.Vip">
+        select * from t_vip
+    </select>
+
+    <delete id="delVip">
+        delete from t_vip where id=#{id}
+    </delete>
+
+    <select id="queryVip" resultType="com.jk.bean.Vip">
+        select * from t_vip where id = #{id}
+    </select>
+
+    <update id="updateVip">
+        update t_vip set vipname=#{vipname},vipaccount=#{vipaccount},vippassword=#{vippassword},vipheadimg=#{vipheadimg} where id=#{id}
+    </update>
+</mapper>
