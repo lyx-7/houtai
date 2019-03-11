@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.mapper.TuiJianMapper">
+<!--List<TuiJian> getTuiJianList(TuiJian tuiJian);-->
+    <select id="getTuiJianList" resultType="com.jk.bean.TuiJian">
+        select * from t_tuijian where state = 0
+    </select>
+    <!--void updateToPass(Integer id);-->
+    <update id="updateToPass">
+        update t_tuijian set state=1 where id=#{id}
+    </update>
+    <!--void updateToNoPass(Integer id);-->
+    <delete id="updateToNoPass">
+        delete from t_tuijian where id=#{id}
+    </delete>
+</mapper>

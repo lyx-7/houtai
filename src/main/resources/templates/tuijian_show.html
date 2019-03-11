@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jquery-2.1.1.min.js"></script>
+    <!--引入easyui的样式 -->
+    <link rel="stylesheet" href="/js/easyui1.5/themes/default/easyui.css" type="text/css"></link>
+    <link rel="stylesheet" href="/js/easyui1.5/themes/icon.css" type="text/css"></link>
+    <script type="text/javascript" src="/js/easyui1.5/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/js/easyui1.5/locale/easyui-lang-zh_CN.js"></script>
+    <script src="/js/easyui1.5/jquery.easyui.min.js"></script>
+    <script src="/js/uploadify/jquery.uploadify.min.js"></script>
+    <link rel="stylesheet" href="/js/uploadify/uploadify.css">
+    <script type="text/javascript" th:inline="none">
+        $(function () {
+            startDatagried();
+        })
+        //-----------------------------------------查询
+        function startDatagried() {
+            $('#dg').datagrid({
+                url:'/tuiJian/getTuiJianList',
+                pagination:true, //开启分页工具栏
+                striped: true, //斑马线效果
+                toolbar: '#tb',
+                checkOnSelect: false, //false，当用户仅在点击该复选框的时候才会呗选中或取消
+                pageList:[1,3,6,12],//下拉框条数
+                pageSize: 6, //默认显示多少条 这个值一定在pagelist中存在
+                columns: [[
+                    {field: 'aaa', title: 'bbb', width: 50, checkbox: true}, //全选反选
+                    {field: 'id', title: '编号', width: 50, align: 'center'},
+                    {field: 'tname', title: '文章标题', width: 100, align: 'center'},
+                    {field: 'tlink', title: '文章链接', width: 100, align: 'center'},
+                    {field: 'tauthor', title: '作者昵称', width: 100, align: 'center'},
+                    {field: 'blogaddr', title: 'blog地址', width: 100, align: 'center'},
+                    {field: 'pindao', title: '推荐频道', width: 100, align: 'center',
+                        formatter: function (value, row) {
+                            if(value==1){
+                                return "娱乐";
+                            }
+                        }
+                    },
+                    {field: 'lanmu', title: '栏目', width: 100, align: 'center',
+                        formatter: function (value, row) {
+                            if(value==1){
+                                return "劲爆热点";
+                            }if(value==2){
+                                return "深度阅读";
+                            }if(value==3){
+                                return "博文排行";
+                            }
+                        }
+                    },
+                    {field: 'tuitime', title: '推荐时间', width: 100, align: 'center'},
+                    {field: 'hhh', title: '操作', width: 150, align: 'center',
+                        formatter: function (value, row) {
+                                return "<input  type='button' onclick='updateToPass("+row.id+")' value='审核通过'>" +
+                                       "<input  type='button' onclick='updateToNoPass("+row.id+")' value='审核拒绝'>";
+                        }
+                    }
+                ]]
+            });
+        }
+//审核通过
+        function updateToPass(id) {
+            $.ajax({
+            	url:"/tuiJian/updateToPass",
+            	type:"POST",
+                data:{id:id},
+            	success:function(result){
+                    alert("审核通过");
+                    startDatagried();
+            	},
+            	error:function(){
+            		alert("失败了");
+            	}
+            });
+        }
+//审核拒绝
+        function updateToNoPass(id) {
+            $.ajax({
+                url:"/tuiJian/updateToNoPass",
+                type:"POST",
+                data:{id:id},
+                success:function(result){
+                    startDatagried();
+                },
+                error:function(){
+                    alert("失败了");
+                }
+            });
+        }
+
+
+    </script>
+</head>
+
+<body>
+<table id="dg" fit=true></table>
+</body>
+</html>
