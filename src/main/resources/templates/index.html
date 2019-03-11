@@ -12,11 +12,13 @@
         $(function(){
             getTree();
         })
+        var tablename = "";
         function getTree(){
             $("#tt").tree({
                 url:'/tree/getTree',
                 lines:true,
                 onClick:function(node){
+                    tablename = node.url
                     if(node.children!=null&&node.children.length>0||node.state=='closed'){
                         return ;
                     }

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:fragment="aaa">
+    <meta charset="UTF-8">
+    <title>Title</title><!-- 导入 jquery包  -->
+
+    <script src="/js/jquery-2.1.1.min.js"></script>
+    <!--引入easyui的样式 -->
+    <link rel="stylesheet" href="/js/easyui1.5/themes/default/easyui.css" type="text/css"></link>
+    <link rel="stylesheet" href="/js/easyui1.5/themes/icon.css" type="text/css"></link>
+    <script type="text/javascript" src="/js/easyui1.5/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/js/easyui1.5/locale/easyui-lang-zh_CN.js"></script>
+    <script src="/js/easyui1.5/jquery.easyui.min.js"></script>
+    <script src="/js/uploadify/jquery.uploadify.min.js"></script>
+    <link rel="stylesheet" href="/js/uploadify/uploadify.css">
+    <script type="text/javascript" th:inline="none">
+        var url = "";
+        $(function () {
+            $("#img").attr("src", "[[${session.mallSku.img}]]");
+            function getQueryString(name) {
+                var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) {
+                    return decodeURI(r[2]);
+                }
+                return null;
+            }
+            var tablename = getQueryString("url");
+            url = "t_"+tablename;
+            querylanmu("t_"+tablename);
+            querybiaoti("t_"+tablename);
+            startDatagried("t_"+tablename);
+        })
+
+        function add(){
+            var a = $('#biaotiid option:selected').val();
+            var b = $('#lanmuid option:selected').val();
+            $.ajax({
+                url : "/tiyu/addTiYu",
+                async : false,
+                type: "POST",
+                data:{biaotiid:a,lanmuid:b,tablename:url},
+                dataType: "json",
+                success : function(data) {
+                    if(data == 1){
+                        alert("添加成功！");
+                        location.reload();
+                    }else {
+                        alert("已经添加过！")
+                    }
+                },
+                error : function(e){
+                    alert("代码有问题，请打开F12和debug进行调试！");
+                }
+            });
+        }
+
+        function querybiaoti(url){
+            $.ajax({
+                url : "/tiyu/querybiaotiid",
+                async : true,
+                type: "POST",
+                dataType: "json",
+                data:{tablename:url},
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                success : function(data) {
+                    var html = "<option value='-1'>请选择</option>";
+                    for(var i in data){
+                        html += '<option value="'+data[i].id+'">'+data[i].title+'</option>';
+                    }
+                    $("#biaotiid").html(html);
+                },
+                error : function(e){
+                    alert("代码有问题，请打开F12和debug进行调试！");
+                }
+            });
+        }
+
+        function querylanmu(url){
+            $.ajax({
+                url : "/tiyu/querylanmuid",
+                async : true,
+                type: "POST",
+                dataType: "json",
+                data:{tablename:url},
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                success : function(data) {
+                var html = "<option value='-1'>请选择</option>";
+                for(var i in data){
+                    html += '<option value="'+data[i].id+'">'+data[i].text+'</option>';
+                }
+                    $("#lanmuid").html(html);
+                },
+                error : function(e){
+                    alert("代码有问题，请打开F12和debug进行调试！");
+                }
+            });
+        }
+
+        //-----------------------------------------查询
+        function startDatagried(url) {
+            $('#dg').datagrid({
+                url:'/tiyu/getPageList?tablename='+url,
+                pagination:true, //开启分页工具栏
+                striped: true, //斑马线效果
+                toolbar: '#tb',
+                checkOnSelect: false, //false，当用户仅在点击该复选框的时候才会呗选中或取消
+                pageList:[10,20,30,40],//下拉框条数
+                pageSize: 20, //默认显示多少条 这个值一定在pagelist中存在
+                columns: [[
+                    {field: 'title', title: '标题', width:'60%', align: 'center'},
+                    {field: 'text', title: '栏目', width: '40%', align: 'center'}
+                ]]
+            });
+        }
+
+    </script>
+
+
+
+</head>
+<body th:fragment="aaaBody">
+    <div id="tb">
+        <!-- 表单数据 -->
+        <form id="home_form" method="post">
+            <input  name="id"  type="hidden">
+            标题:<select name="biaotiid"  id="biaotiid">
+            <option value="-1">请选择</option>
+        </select>
+            栏目:<select name="lanmuid"  id="lanmuid">
+            <option value="-1">请选择</option>
+        </select>
+            <input type="reset" value="重置">
+            <input id="saveBtn" type="button" onclick="add()" value="新增">
+        </form>
+    </div>
+    <table id="dg" fit=true></table>
+</body>
+</html>

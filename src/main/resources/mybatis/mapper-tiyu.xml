@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.mapper.TiYuMapper">
+    <!--添加-->
+    <insert id="addTiYu">
+        insert into
+          t_lanmu_biaoti
+          (biaotiid,lanmuid,tablename)
+        value
+          (#{biaotiid}, #{lanmuid},#{tablename})
+    </insert>
+
+    <!-- 查询biaotiid -->
+    <select id="querybiaotiid" resultType="com.jk.bean.TiYu">
+		select * from ${tablename}
+	</select>
+
+    <!-- 查询lanmuid -->
+    <select id="querylanmuid" resultType="com.jk.bean.LanMu">
+		select * from t_lanmu where tablename = #{tablename}
+	</select>
+
+    <!--getPageList-->
+    <select id="getPageList" resultType="com.jk.bean.LanMuBiaoTi">
+		select
+		  b.title,c.text
+		from
+		  t_lanmu_biaoti a,${tablename} b,t_lanmu c
+		where
+		  a.biaotiid = b.id
+		and
+		  a.lanmuid = c.id
+		and
+		  a.tablename = #{tablename}
+	</select>
+
+    <!--getPageList-->
+    <select id="queryList" resultType="com.jk.bean.LanMuBiaoTi">
+		select * from t_lanmu_biaoti a where a.biaotiid=#{biaotiid} and a.lanmuid=#{lanmuid}
+	</select>
+</mapper>
