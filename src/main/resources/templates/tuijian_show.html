@@ -31,8 +31,9 @@
                     {field: 'id', title: '编号', width: 50, align: 'center'},
                     {field: 'tname', title: '文章标题', width: 100, align: 'center'},
                     {field: 'tlink', title: '文章链接', width: 100, align: 'center'},
-                    {field: 'tauthor', title: '作者昵称', width: 100, align: 'center'},
-                    {field: 'blogaddr', title: 'blog地址', width: 100, align: 'center'},
+                    {field: 'tauthor', title: '推荐人', width: 100, align: 'center'},
+                    {field: 'userid', title: '用户id', width: 100, align: 'center'},
+                    {field: 'blogaddr', title: '文章图片链接', width: 100, align: 'center'},
                     {field: 'pindao', title: '推荐频道', width: 100, align: 'center',
                         formatter: function (value, row) {
                             if(value==1){
@@ -42,11 +43,11 @@
                     },
                     {field: 'lanmu', title: '栏目', width: 100, align: 'center',
                         formatter: function (value, row) {
-                            if(value==1){
+                            if(value==6){
                                 return "劲爆热点";
-                            }if(value==2){
+                            }if(value==7){
                                 return "深度阅读";
-                            }if(value==3){
+                            }if(value==8){
                                 return "博文排行";
                             }
                         }

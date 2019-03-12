@@ -1,7 +1,9 @@
 package com.jk.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.jk.bean.LanMuBiaoTi;
 import com.jk.bean.TuiJian;
+import com.jk.bean.Yule;
 import com.jk.mapper.TuiJianMapper;
 import com.jk.service.TuiJianService;
 import com.jk.utils.ReceivePage;
@@ -27,7 +29,30 @@ public class TuiJianServiceImpl implements TuiJianService {
 
     @Override
     public void updateToPass(Integer id) {
-        tuiJianMapper.updateToPass(id);
+
+
+
+        TuiJian tui = tuiJianMapper.queryTuiJianById(id);//根据id查询当前对象
+
+        Yule yule = new Yule();
+        yule.setTitle(tui.getTname());//文章标题
+        yule.setTlink(tui.getTlink());//文章链接
+        yule.setImgurl(tui.getBlogaddr());//图片链接
+        yule.setVipid(tui.getUserid());//推荐人id
+        yule.setVipname(tui.getTauthor());//推荐人
+        yule.setStatus(tui.getState());//状态
+        yule.setTime(tui.getTuitime());//推荐时间
+
+
+        tuiJianMapper.addToYule(yule);//添加到  娱乐表
+
+        LanMuBiaoTi lb = new LanMuBiaoTi();
+        lb.setLanmuid(tui.getLanmu()); //栏目
+        lb.setBiaotiid(yule.getId());//标题
+        tuiJianMapper.addToLanmuBiaoti(lb); //添加到 栏目标题 表
+
+
+        tuiJianMapper.updateToNoPass(id); //删除掉这条信息
     }
 
     @Override

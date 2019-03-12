@@ -13,11 +13,12 @@ public class TuiJian {
     private String tname;
     private String tlink;
     private String tauthor;
-    private String blogaddr;
+    private String blogaddr;//图片
     private String pindao;
     private Integer lanmu;
     private Integer state;
     @JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date tuitime;
+    private Integer userid;
 }

@@ -1,9 +1,7 @@
 package com.jk.controller;
 
 import com.jk.bean.TuiJian;
-
 import com.jk.service.TuiJianService;
-
 import com.jk.utils.ReceivePage;
 import com.jk.utils.SendPage;
 import org.springframework.stereotype.Controller;
