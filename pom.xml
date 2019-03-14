@@ -28,8 +28,7 @@
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
 
-<<<<<<< Updated upstream
-=======
+
 
        <!--  spring-boot-starter-data-mongodb
         <dependency>
@@ -38,7 +37,6 @@
         </dependency>-->
 
 
->>>>>>> Stashed changes
         <!--redis-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
