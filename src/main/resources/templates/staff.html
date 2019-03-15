@@ -43,6 +43,7 @@
                         formatter: function (value, row) {
                             var temp = "<a href='javascript:void(0)' onclick='update(" + row.id + ")' >修改</a>";
                             temp += "|<a href='javascript:void(0)' onclick='del(" + row.id + ")' >删除</a>";
+                            temp += " | <a href='/role/assignRole?userid="+row.id+"' target='_blank'>角色</a>";
                             return temp;
                         }
                     }

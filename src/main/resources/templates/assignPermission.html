@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jquery-2.1.1.min.js"></script>
+    <!--引入easyui的样式 -->
+    <link rel="stylesheet" href="/js/easyui1.5/themes/default/easyui.css" type="text/css"></link>
+    <link rel="stylesheet" href="/js/easyui1.5/themes/icon.css" type="text/css"></link>
+    <script type="text/javascript" src="/js/easyui1.5/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/js/easyui1.5/locale/easyui-lang-zh_CN.js"></script>
+    <script src="/js/easyui1.5/jquery.easyui.min.js"></script>
+</head>
+<body>
+<ul id="myTree"></ul>
+<a href="javascript:void(0)" onclick="addPermissionToRole()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">
+    增加权限
+</a>
+</body>
+<script type="text/javascript" th:inline="none">
+        var id = "";
+        $(function () {
+            $("#img").attr("src", "[[${session.mallSku.img}]]");
+            function getQueryString(name) {
+                var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) {
+                    return decodeURI(r[2]);
+                }
+                return null;
+            }
+            id = getQueryString("id");
+            ininMyTree(id);
+        })
+    //同步树
+    function ininMyTree(id){
+        $('#myTree').tree({
+            url:'/permission/queryTreeByRoleid?roid='+id,
+            checkbox:true,
+            lines:true
+        })
+    }
+    /*function createIframe(url){
+        return '<iframe scrolling="auto" frameborder="0"  src="/tree/toView?url='+ url + '" style="width:100%;height:100%;"></iframe>';
+    }*/
+    //授权
+    function addPermissionToRole(){
+        //获取选中的和不确定的
+        var nodes = $('#myTree').tree('getChecked', ['checked','indeterminate']);
+        var param = {roid:id};
+        $.each(nodes,function(index,obj){//权限的id
+            param["permissionid["+index+"]"] = obj.id;
+        })
+        $.ajax({
+            url:"/role/addPermissionToRole",
+            type:"POST",
+            data:param,//加上loading框
+            success:function(result){
+                alert("分配成功");
+            },
+            error:function(){
+                alert("ajax访问失败了,查看控制台");
+            }
+        });
+    }
+</script>
+</html>
