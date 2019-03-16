@@ -27,7 +27,7 @@ public class RoleController {
     /**
      * 分页查询
      */
-    @RequiresPermissions(value = "add")
+    @RequiresPermissions(value = "query")
     @RequestMapping("getPageList")
     @ResponseBody
     public SendPage getPageList(Role role, ReceivePage receivePage) {
@@ -48,6 +48,7 @@ public class RoleController {
     /**
      * 物理删除
      */
+    @RequiresPermissions(value = "del")
     @RequestMapping("delByIds")
     @ResponseBody
     public String delByIds(String[] ids) {
@@ -56,8 +57,9 @@ public class RoleController {
     }
 
     /**
-     * 根据id查询（回显）
+     * 根据id查询（回显）update
      */
+    @RequiresPermissions(value = "update")
     @RequestMapping("getById")
     @ResponseBody
     public Role getById(Integer id){
@@ -122,7 +124,7 @@ public class RoleController {
     /**
      * 跳转页面
      */
-    @RequiresPermissions(value = "add")
+    @RequiresPermissions(value = "query")
     @RequestMapping("toAssignPermission")
     public String toAssignPermission(Integer id){
         return "assignPermission";

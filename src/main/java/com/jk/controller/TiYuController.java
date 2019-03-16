@@ -7,6 +7,7 @@ import com.jk.bean.TiYu;
 import com.jk.service.TiYuService;
 import com.jk.utils.ReceivePage;
 import com.jk.utils.SendPage;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ public class TiYuController {
     @Autowired
     private TiYuService tiYuService;
 
+    @RequiresPermissions(value = "add")
     @ResponseBody
     @RequestMapping("addTiYu")
     public String addTiYu(LanMuBiaoTi lanMuBiaoTi){
@@ -34,18 +36,21 @@ public class TiYuController {
     }
 
 
+    @RequiresPermissions(value = "query")
     @RequestMapping("querybiaotiid")
     @ResponseBody
     public List<TiYu> querybiaotiid(String tablename){
         return tiYuService.querybiaotiid(tablename);
     }
 
+    @RequiresPermissions(value = "query")
     @RequestMapping("querylanmuid")
     @ResponseBody
     public List<LanMu> querylanmuid(String tablename){
         return tiYuService.querylanmuid(tablename);
     }
 
+    @RequiresPermissions(value = "query")
     @RequestMapping("getPageList")
     @ResponseBody
     public SendPage getPageList(LanMuBiaoTi lanMuBiaoTi, ReceivePage receivePage) {
