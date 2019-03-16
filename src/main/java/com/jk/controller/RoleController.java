@@ -70,7 +70,7 @@ public class RoleController {
     /**
      * 查询用户拥有的id和数据库的角色
      */
-    @RequiresPermissions(value = "add")
+    @RequiresPermissions(value = "query")
     @RequestMapping("assignRole")
     public String assignRole(Integer userid,Model model) {//,HttpSession session
         ArrayList<Role> assignRole = new ArrayList<>();//定义已分配的角色
@@ -95,6 +95,7 @@ public class RoleController {
     /**
      * 分配角色
      */
+    @RequiresPermissions(value = "add")
     @ResponseBody
     @RequestMapping("addRoleByUserId")
     public String addRoleByUserId(QueryParam queryParam){
@@ -105,6 +106,7 @@ public class RoleController {
     /**
      * 移除角色
      */
+    @RequiresPermissions(value = "del")
     @ResponseBody
     @RequestMapping("removeRoleByUserId")
     public Result removeRoleByUserId(QueryParam queryParam) {
@@ -133,6 +135,7 @@ public class RoleController {
     /**
      * 授权
      */
+    @RequiresPermissions(value = "add")
     @ResponseBody
     @RequestMapping("addPermissionToRole")
     public String addPermissionToRole(QueryParam queryParam){
