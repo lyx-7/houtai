@@ -19,6 +19,12 @@ public class ShiroController {
         return "query";
     }
 
+    @RequestMapping("phone")
+    public String phone(){
+
+        return "phone";
+    }
+
     @RequestMapping("login")
     public String login(){
 

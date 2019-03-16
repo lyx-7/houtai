@@ -67,6 +67,9 @@ public class ShiroConfig {
 
         // map的值为anon shiro不会进行拦截
         filterChainDefinitionMap.put("/toLogin", "anon");
+        filterChainDefinitionMap.put("/phone/sendCode", "anon");
+        filterChainDefinitionMap.put("/phone/login", "anon");
+        filterChainDefinitionMap.put("/login", "anon");
         filterChainDefinitionMap.put("/css/**", "anon");
         filterChainDefinitionMap.put("/img/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
@@ -82,7 +85,7 @@ public class ShiroConfig {
 
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
         //shiro拦截请求后如果发现没有登录 会自动跳转到登录接口
-        shiroFilterFactoryBean.setLoginUrl("/login");//设置登录的界面
+        shiroFilterFactoryBean.setLoginUrl("/phone");//设置登录的界面
         // 当检测到没有登录时会自动跳转到登录界面
         // 登录成功后要跳转的链接
         //shiroFilterFactoryBean.setSuccessUrl("/index");
