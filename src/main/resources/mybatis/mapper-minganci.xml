@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.mapper.MinGanCiMapper">
+    <select id="getMinGanCi" resultType="com.jk.bean.MInGanCi">
+        select * from t_minganci
+        <where>
+            <if test="text!=null and text!=''">
+                text like '%${text}%'
+            </if>
+        </where>
+    </select>
+    <insert id="addMinGanCi">
+        insert into t_minganci(text) value(#{text})
+    </insert>
+    <delete id="delMinGanCi">
+        delete from t_minganci  where id=#{id}
+    </delete>
+    <select id="updateMinGanCi" resultType="com.jk.bean.MInGanCi">
+        select * from t_minganci  where id=#{id}
+    </select>
+    <update id="updateMinGanCi2">
+        update t_minganci set text=#{text} where id=#{id}
+    </update>
+</mapper>

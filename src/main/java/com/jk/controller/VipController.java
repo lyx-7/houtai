@@ -2,6 +2,7 @@ package com.jk.controller;
 
 import com.jk.bean.Vip;
 import com.jk.utils.FileUtil;
+import com.jk.utils.OssUpFileUtil;
 import com.jk.utils.ReceivePage;
 import com.jk.utils.SendPage;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 @Controller
 @RequestMapping("vip")
@@ -37,14 +39,22 @@ public class VipController {
     /**
      * 上传图片
      * @param file
-     * @param request
+     * @param
      * @return
      */
     @ResponseBody
     @RequestMapping("upload")
-    public String upload(MultipartFile file, HttpServletRequest request){
-
-        return FileUtil.upload(file,request);
+    public String upload(MultipartFile file){
+        Map<String, Object> stringObjectMap = OssUpFileUtil.uploadFile(file);
+        String count = "";
+        for(String key : stringObjectMap.keySet()){
+            Object o = stringObjectMap.get(key);
+            System.out.println("key: " + key + " value: " + o);
+            if(key=="url"){
+                count+=o;
+            }
+        }
+        return count;
     }
 
     /**

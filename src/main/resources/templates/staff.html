@@ -36,7 +36,7 @@
                     {field: 'password', title: '密码', width: 100, align: 'center'},
                     {field: 'headimg', title: '员工头像', width: 100, align: 'center',
                         formatter: function (value,row)
-                        {return '<a href="javascript:void(0)" onclick="queryimg('+row.id+')"><img width="100px" height="70px" src="/upload/' + value + '"/></a>'
+                        {return '<a href="javascript:void(0)" onclick="queryimg('+row.id+')"><img width="100px" height="70px" src="' + value + '"/></a>'
                         }
                     },
                     {field: 'sds', title: '操作', width: 150, align: 'center',
@@ -91,6 +91,7 @@
 
         function clearFormData(){
             $("#form-id").form('clear'); //清空form组件内容
+            $("#testimg").html("");
         }
         //图片控件
         function preFile() {
@@ -125,9 +126,9 @@
                 },
                 //成功回调函数 file：文件对象。data后台输出数据
                 'onUploadSuccess': function (file, data, response) {
-                    var imgurl = "/upload/" + data;
+                    console.log(data);
                     //给img框赋值进行展示
-                    $("#testimg").attr("src", imgurl);
+                    $("#testimg").attr("src", data);
                     //给隐藏的文本框赋值 传到后台
                     $('#hideImg').val(data);
                 }
@@ -177,11 +178,12 @@
         用户名称:<input id="username"  name="username" class="easyui-textbox"><br/>
         用户账号:<input id="account" name="account" class="easyui-textbox"><br/>
         密码:<input id="password" name="password" class="easyui-textbox"><br/>
+        手机号:<input id="phone" name="phone" class="easyui-textbox"><br/>
         用户头像:
         <input name="headimg" id="hideImg" type="hidden">
         <input id="uploadify" type="file">
         <div id="fileQueue"></div>
-        <img id="testimg" width="66">
+        <img id="testimg" name="headimg" width="66">
         <!-- 上传完显示的图片  -->
     </form>
 </div>
