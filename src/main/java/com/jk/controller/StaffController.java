@@ -69,6 +69,7 @@ public class StaffController {
      * @param receivePage
      * @return
      */
+    @RequiresPermissions(value = "query")
     @RequestMapping("getPageList")
     @ResponseBody
     public SendPage getPageList(Staff staff, ReceivePage receivePage) {
@@ -78,7 +79,7 @@ public class StaffController {
     /**
      * 删除
      */
-    @RequiresPermissions(value = "add")
+    @RequiresPermissions(value = "del")
     @ResponseBody
     @RequestMapping("delStaff")
     public String delStaff(String id){
@@ -91,7 +92,7 @@ public class StaffController {
      * @param id
      * @return
      */
-    @RequiresPermissions(value = "add")
+    @RequiresPermissions(value = "query")
     @RequestMapping("queryStaff")
     @ResponseBody
     public Staff queryStaff(Integer id) {

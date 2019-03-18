@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.mapper.LanMuMapper">
+
+    <select id="getPageList" resultType="com.jk.bean.LanMu">
+        select * from t_lanmu
+    </select>
+    <select id="getTree" resultType="com.jk.bean.Title">
+        select * from t_title
+    </select>
+    <insert id="addLanmu">
+        insert into t_lanmu(text,tablename,status) value(#{text},#{tablename},0)
+    </insert>
+    <update id="Upstatus">
+      update t_lanmu set status = 1 where id= #{id}
+    </update>
+    <update id="Upstatus2">
+      update t_lanmu set status = 0 where id= #{id}
+    </update>
+    <select id="queryLanmu"  resultType="com.jk.bean.LanMu">
+          select * from t_lanmu where id = #{id}
+    </select>
+    <update id="update">
+        update t_lanmu set text = #{text},tablename = #{tablename} where id =#{id}
+    </update>
+</mapper>
