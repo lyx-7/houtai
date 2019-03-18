@@ -27,7 +27,7 @@ public class RoleController {
     /**
      * 分页查询
      */
-    @RequiresPermissions(value = "add")
+    @RequiresPermissions(value = "query")
     @RequestMapping("getPageList")
     @ResponseBody
     public SendPage getPageList(Role role, ReceivePage receivePage) {
@@ -48,6 +48,7 @@ public class RoleController {
     /**
      * 物理删除
      */
+    @RequiresPermissions(value = "del")
     @RequestMapping("delByIds")
     @ResponseBody
     public String delByIds(String[] ids) {
@@ -56,8 +57,9 @@ public class RoleController {
     }
 
     /**
-     * 根据id查询（回显）
+     * 根据id查询（回显）update
      */
+    @RequiresPermissions(value = "update")
     @RequestMapping("getById")
     @ResponseBody
     public Role getById(Integer id){
@@ -68,7 +70,7 @@ public class RoleController {
     /**
      * 查询用户拥有的id和数据库的角色
      */
-    @RequiresPermissions(value = "add")
+    @RequiresPermissions(value = "query")
     @RequestMapping("assignRole")
     public String assignRole(Integer userid,Model model) {//,HttpSession session
         ArrayList<Role> assignRole = new ArrayList<>();//定义已分配的角色
@@ -93,6 +95,7 @@ public class RoleController {
     /**
      * 分配角色
      */
+    @RequiresPermissions(value = "add")
     @ResponseBody
     @RequestMapping("addRoleByUserId")
     public String addRoleByUserId(QueryParam queryParam){
@@ -103,6 +106,7 @@ public class RoleController {
     /**
      * 移除角色
      */
+    @RequiresPermissions(value = "del")
     @ResponseBody
     @RequestMapping("removeRoleByUserId")
     public Result removeRoleByUserId(QueryParam queryParam) {
@@ -122,7 +126,7 @@ public class RoleController {
     /**
      * 跳转页面
      */
-    @RequiresPermissions(value = "add")
+    @RequiresPermissions(value = "query")
     @RequestMapping("toAssignPermission")
     public String toAssignPermission(Integer id){
         return "assignPermission";
@@ -131,6 +135,7 @@ public class RoleController {
     /**
      * 授权
      */
+    @RequiresPermissions(value = "add")
     @ResponseBody
     @RequestMapping("addPermissionToRole")
     public String addPermissionToRole(QueryParam queryParam){
