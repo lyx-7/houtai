@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.mapper.AdvertMapper">
+
+   <!--
+   List<Advert> queryAdvert(Advert advert);
+    void addInfo(Advert advert);
+    Advert getById(Integer id);
+    void updateInfo(Advert advert);
+    void deletes(String ids);
+   -->
+    <select id="queryAdvert" resultType="com.jk.bean.Advert">
+        select * from t_advert
+    </select>
+
+    <insert id="addInfo">
+        insert into t_advert(adtitle,adimg,adlink,adlocation,adstate)
+        values(#{adtitle},#{adimg},#{adlink},#{adlocation},0)
+    </insert>
+
+    <select id="getById" resultType="com.jk.bean.Advert">
+        select * from t_advert where id=#{id}
+    </select>
+
+    <update id="updateInfo">
+        update t_advert set adtitle=#{adtitle},adimg=#{adimg},
+        adlink=#{adlink},adlocation=#{adlocation},adstate=#{adstate}
+        where id=#{id}
+    </update>
+
+    <delete id="deletes">
+        delete from t_advert where id in (${ids})
+    </delete>
+
+</mapper>
