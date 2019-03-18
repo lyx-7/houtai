@@ -13,8 +13,18 @@
     <!-- layer -->
     <script src="/js/layer/layer.js"></script>
     <script type="text/javascript">
-
-
+        function tologin(){
+            location.href="/phone";
+        }
+        function xz(){
+            var a=$('[name="user_pwd"]:checked').val();
+            if(a=="on"){
+                $('#loginZd').attr("disabled",false);
+            }else{
+                $('#loginZd').attr("disabled",true);
+                $("#loginZd").prop("checked",false);
+            }
+        }
 
     </script>
 </head>
@@ -27,7 +37,7 @@
 <div class="middle">
     <div class="login">
         <div class="l1 ">
-            <a class="l1_font_02 " href="/login/toRegist">用户注册</a>
+            <a class="l1_font_02 " href="/phone/toRegist">用户注册</a>
         </div>
         <div class="blank_01"></div>
 
@@ -44,13 +54,12 @@
 
         <div class="blank_01"></div>
         <div class="blank_01"></div>
-        <div style="float: left;width: 220px"  >
+        <div style="float: left;width: 245px"  >
             <input type="checkbox"  class="box_01_box" name="user_pwd" th:checked="${password}==null?'false':'checked'" onclick="xz()"/>
             记住密码
         </div>
             <div style="float: left">
-                <input type="checkbox" disabled="disabled" class="box_02_box" name="loginZd" id="loginZd" th:checked="${decode2}==null?'false':'checked'"/>
-                自动登录
+                <div class="blank_01"><a href="javascript:void(0)" onclick="tologin()">手机登录</a></div>
         </div>
 
             <button class="red_button" type="submit">登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录</button>
@@ -61,7 +70,7 @@
                 登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录
             </div>
         </a>-->
-        <div class="blank_01"><a href="javascript:void(0)" onclick="tologin()">手机登录</a></div>
+
         <div class="blank_01"></div>
         <div class="blank_01"></div>
 

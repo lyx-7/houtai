@@ -20,7 +20,7 @@ public class QueryParam implements Serializable {
     private Integer code;
 
     private String account;//用户输入的账号
-    private String phone_no;//发送验证码的手机号
+    private String phone;//发送验证码的手机号
     private String verify_code;//用户输入的验证码
 
 
