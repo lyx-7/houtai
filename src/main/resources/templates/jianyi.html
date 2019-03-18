@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 导入 jquery包  -->
+    <script src="/js/jquery-2.1.1.min.js"></script>
+    <!--引入easyui的样式 -->
+    <!--引入easyui的样式 -->
+    <link rel="stylesheet" href="/js/easyui1.5/themes/default/easyui.css" type="text/css"></link>
+    <link rel="stylesheet" href="/js/easyui1.5/themes/icon.css" type="text/css"></link>
+    <script type="text/javascript" src="/js/easyui1.5/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/js/easyui1.5/locale/easyui-lang-zh_CN.js"></script>
+   <script type="text/javascript" th:inline="none">
+    $(function(){
+    getJIanYi();
+    })
+    //-----------------------------------------查询
+    function getJIanYi() {
+    $('#dg').datagrid({
+    url:'/getJIanYi',
+    pagination:true, //开启分页工具栏
+    striped: true, //斑马线效果
+    toolbar: '#tb',
+    checkOnSelect: false, //false，当用户仅在点击该复选框的时候才会呗选中或取消
+    pageList:[4,10,20,30,40],//下拉框条数
+    pageSize: 20, //默认显示多少条 这个值一定在pagelist中存在
+    columns: [[
+    {field: 'id', title: '编号', width:'10%', align: 'center'},
+    {field: 'text', title: '用户名', width: '20%', align: 'center'},
+    {field: 'sds', title: '操作', width: '40%', align: 'center',
+    formatter: function (value, row) {
+        if(row.status==0){
+            var temp = '<a  href="javascript:void(0)" onclick="jieshou(' + row.id + ')" >接受</a>';
+            temp+= '|<a  href="javascript:void(0)" onclick="jujue(' + row.id + ')" >拒绝</a>';
+            return temp;
+        }else{
+            var temp2 = '<a  href="javascript:void(0)" onclick="jujue(' + row.id + ')" >删除</a>';
+            return temp2;
+        }
+    }
+    }
+    ]]
+    });
+    }
+    /*接受*/
+       function jieshou(id){
+           $.ajax({
+           		url:"/jieShou",
+           		type:"POST",
+                data:{id:id},
+           		success:function(result){
+           		   	if(result==1){
+           		   	    location.reload();
+                    }
+           		},
+           		error:function(){
+           			alert("失败了");
+           		}
+           		})
+       }
+       /*拒绝*/
+       function juJue(id){
+           $.ajax({
+           		url:"/juJue",
+           		type:"POST",
+                data:{id:id},
+           		success:function(result){
+           		   	if(result==1){
+           		   	    location.reload();
+                    }
+           		},
+           		error:function(){
+           			alert("失败了");
+           		}
+           		})
+       }
+    //条查
+    function queryJianYi2(){
+        $("#form2").form('submit');
+        $('#dg').datagrid('load',serializeFrom2Obj($("#form2")));
+    }
+    function serializeFrom2Obj (obj) {
+        var o = {};
+        var a = obj.serializeArray();//[{name:'price',value='12'},{},{}]
+        $.each(a, function() {
+            if (o[this.name] !== undefined) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+   </script>
+</head>
+<body>
+<div id="tb">
+    <form id="form2">
+        <input  name="text" class="easyui-textbox">
+        <select id="cc" class="easyui-combobox"  name="role" style="width:200px;">
+            <option value="0">待审核</option>
+            <option value="1">已接受的建议</option>
+        </select>
+    </form>
+    <a  onclick="queryJianYi2()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">搜索</a>
+
+</div>
+<table id="dg"></table>
+<br>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.mapper.JianYiMapper">
+    <select id="getJIanYi" resultType="com.jk.bean.JianYi">
+        select * from t_jianyi
+        <where>
+            <if test="status!=null">
+                status=#{status}
+            </if>
+            <if test="text!=null and text!=''">
+                and text like '%${text}%'
+            </if>
+        </where>
+    </select>
+    <update id="jieShou">
+        update t_jianyi set status=1 where id=#{id}
+    </update>
+    <delete id="juJue">
+        delete from t_jianyi where id=#{id}
+    </delete>
+</mapper>
