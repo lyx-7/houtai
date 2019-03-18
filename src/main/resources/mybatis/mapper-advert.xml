@@ -32,4 +32,7 @@
         delete from t_advert where id in (${ids})
     </delete>
 
+    <update id="upOrDown">
+        update t_advert set adstate=#{flag} where id=#{id}
+    </update>
 </mapper>

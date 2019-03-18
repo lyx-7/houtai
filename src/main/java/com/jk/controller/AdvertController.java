@@ -49,4 +49,12 @@ public class AdvertController {
         advertService.deletes(ids);
         return "1";
     }
+
+    //上下架upOrDown
+    @ResponseBody
+    @RequestMapping("upOrDown")
+    public String upOrDown(Integer id,Integer flag) {
+        advertService.upOrDown(id,flag);
+        return "1";
+    }
 }

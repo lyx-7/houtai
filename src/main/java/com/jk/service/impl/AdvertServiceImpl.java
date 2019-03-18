@@ -46,4 +46,9 @@ public class AdvertServiceImpl implements AdvertService {
     public void deletes(String ids) {
         advertMapper.deletes(ids);
     }
+
+    @Override
+    public void upOrDown(Integer id, Integer flag) {
+        advertMapper.upOrDown(id,flag);
+    }
 }

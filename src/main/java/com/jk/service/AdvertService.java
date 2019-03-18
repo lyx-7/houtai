@@ -12,4 +12,6 @@ public interface AdvertService {
     Advert getById(Integer id);
 
     void deletes(String ids);
+
+    void upOrDown(Integer id, Integer flag);
 }

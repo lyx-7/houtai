@@ -16,4 +16,6 @@ public interface AdvertMapper {
     void updateInfo(Advert advert);
 
     void deletes(@Param("ids") String ids);
+
+    void upOrDown(@Param("id")Integer id, @Param("flag")Integer flag);
 }

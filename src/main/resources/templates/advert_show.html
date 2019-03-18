@@ -63,13 +63,20 @@
                     },
                     {field: 'ccc', title: '操作', width: 200, align: 'center',
                         formatter: function (value, row, index) {
-                            var temp = " <a  href='javascript:void(0)' onclick='deletes(" + row.id + ")' >删除</a>";
-                                temp += " |<a  href='javascript:void(0)' onclick='getById(" + row.id + ")' >修改</a>";
+
+                            var temp ="";
+
+                            if(row.adstate==0){
+                                temp += " |<a  href='javascript:void(0)' onclick='upOrDown(" + row.id + ",1)' >显示</a>";
+                            }
+                            if(row.adstate==1){
+                                temp += " |<a  href='javascript:void(0)' onclick='upOrDown(" + row.id + ",0)' >隐藏</a>";
+                            }
+
+                            temp += " |<a  href='javascript:void(0)' onclick='deletes(" + row.id + ")' >删除</a>";
+                            temp += " |<a  href='javascript:void(0)' onclick='getById(" + row.id + ")' >修改</a>";
                             return temp;
 
-                            if(adstate==0){
-
-                            }
                         }
                     }
                 ]]
@@ -153,6 +160,21 @@
             });
         }
 
+//---------------------------上下架
+        function upOrDown(id,flag){
+            $.ajax({
+            	url:"/advert/upOrDown",
+            	type:"POST",
+            	data:{id:id,flag:flag},
+            	success:function(result){
+
+                    startDatagried();
+            	},
+            	error:function(){
+            		alert("失败了");
+            	}
+            });
+        }
     </script>
 
 
