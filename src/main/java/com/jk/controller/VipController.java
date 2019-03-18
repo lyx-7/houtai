@@ -2,8 +2,10 @@ package com.jk.controller;
 
 import com.jk.bean.Vip;
 import com.jk.utils.FileUtil;
+import com.jk.utils.OssUpFileUtil;
 import com.jk.utils.ReceivePage;
 import com.jk.utils.SendPage;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -11,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 @Controller
 @RequestMapping("vip")
@@ -23,6 +26,7 @@ public class VipController {
      * @param vip
      * @return
      */
+    @RequiresPermissions(value = "add")
     @ResponseBody
     @RequestMapping("addVip")
     public String addStaff(Vip vip){
@@ -37,14 +41,22 @@ public class VipController {
     /**
      * 上传图片
      * @param file
-     * @param request
+     * @param
      * @return
      */
     @ResponseBody
     @RequestMapping("upload")
-    public String upload(MultipartFile file, HttpServletRequest request){
-
-        return FileUtil.upload(file,request);
+    public String upload(MultipartFile file){
+        Map<String, Object> stringObjectMap = OssUpFileUtil.uploadFile(file);
+        String count = "";
+        for(String key : stringObjectMap.keySet()){
+            Object o = stringObjectMap.get(key);
+            System.out.println("key: " + key + " value: " + o);
+            if(key=="url"){
+                count+=o;
+            }
+        }
+        return count;
     }
 
     /**
@@ -53,6 +65,7 @@ public class VipController {
      * @param receivePage
      * @return
      */
+    @RequiresPermissions(value = "query")
     @RequestMapping("getPageList")
     @ResponseBody
     public SendPage getPageList(Vip vip, ReceivePage receivePage) {
@@ -62,6 +75,7 @@ public class VipController {
     /**
      * 删除
      */
+    @RequiresPermissions(value = "del")
     @ResponseBody
     @RequestMapping("delVip")
     public String delVip(String id){
@@ -74,6 +88,7 @@ public class VipController {
      * @param id
      * @return
      */
+    @RequiresPermissions(value = "update")
     @RequestMapping("queryVip")
     @ResponseBody
     public Vip queryVip(Integer id) {

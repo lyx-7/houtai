@@ -9,4 +9,6 @@ public class Vip {
   String vipaccount;
   String vippassword;
   String vipheadimg;
+  Integer role;
+  Integer status;
 }

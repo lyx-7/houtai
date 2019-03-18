@@ -9,4 +9,5 @@ public class Staff {
     String account;
     String password;
     String headimg;
+    String phone;
 }

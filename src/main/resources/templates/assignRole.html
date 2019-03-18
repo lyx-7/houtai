@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jquery-2.1.1.min.js"></script>
+    <!--引入easyui的样式 -->
+    <link rel="stylesheet" href="/js/easyui1.5/themes/default/easyui.css" type="text/css"></link>
+    <link rel="stylesheet" href="/js/easyui1.5/themes/icon.css" type="text/css"></link>
+    <script type="text/javascript" src="/js/easyui1.5/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/js/easyui1.5/locale/easyui-lang-zh_CN.js"></script>
+    <script src="/js/easyui1.5/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form role="form" class="form-inline">
+            <div class="form-group">
+                <label for="exampleInputPassword1">未分配角色列表</label><br>
+                <select id="leftSelect" class="form-control" multiple size="10"
+                    style="width: 100px; overflow-y: auto;">
+                        <option  th:each="role:${unassignRole}" th:value="${role.id}" th:text="${role.name}">
+                        </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <ul>
+                    <li class="btn btn-default glyphicon glyphicon-chevron-right"
+                        onclick="addRole()"></li>
+                    <br>
+                    <li class="btn btn-default glyphicon glyphicon-chevron-left"
+                        style="margin-top: 20px;" onclick="removeRole()"></li>
+                </ul>
+            </div>
+            <div class="form-group" style="margin-left: 40px;">
+                <label for="exampleInputPassword1">已分配角色列表</label><br>
+                <select id="rightSelect" class="form-control" multiple size="10"
+                    style="width: 100px; overflow-y: auto;">
+                    <option  th:each="role:${assignRole}" th:value="${role.id}" th:text="${role.name}">
+                    </option>
+                </select>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script type="text/javascript"  th:inline="none">
+    var userid = "";
+    $(function () {
+        $("#img").attr("src", "[[${session.mallSku.img}]]");
+        function getQueryString(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return decodeURI(r[2]);
+            }
+            return null;
+        }
+        userid = getQueryString("userid");
+
+    })
+    //给用户设置角色
+    function addRole() {
+        var param = {userid:userid};
+        if($("#leftSelect :selected").size()==0){
+            alert("至少选择一个角色")
+            return;
+        }
+        $.each($("#leftSelect :selected"),function(index,obj){
+            param["roleid["+index+"]"]= obj.value;
+        })
+        console.log(param)
+        $.ajax({
+            url:"/role/addRoleByUserId",
+            type : "POST",
+            data : param,
+            success : function(result) {
+                //判断数据库的数据确实已经改变了 再改变前台的数据
+                $("#rightSelect").append($("#leftSelect :selected"))
+            },
+            error : function() {
+                alert("ajax访问失败了,查看控制台");
+            }
+        });
+    }
+    //移除角色
+    function removeRole(){
+        var param = {userid:userid};
+        if($("#rightSelect :selected").size()==0){
+            alert("至少选择一个角色")
+            return;
+        }
+        $.each($("#rightSelect :selected"),function(index,obj){
+            param["roleid["+index+"]"] = $(obj).val();
+        })
+        $.ajax({
+            url:"/role/removeRoleByUserId",
+            type:"POST",
+            data:param,
+            success:function(result){
+                //判断数据库的数据确实已经改变了 再改变前台的数据
+                $("#leftSelect").append($("#rightSelect :selected"))
+            },
+            error:function(){
+                alert("ajax访问失败了,查看控制台");
+            }
+        });
+    }
+
+</script>
+</html>

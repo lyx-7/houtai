@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.mapper.ShiroMapper">
+     <!--查询-->
+     <select id="queryUser" resultType="java.lang.String">
+     select password from t_staff where username=#{username}
+    </select>
+
+    <!--查询权限-->
+    <select id="getUser" resultType="com.jk.bean.Staff">
+     select  * from t_staff where username=#{username}
+    </select>
+
+
+    <select id="getRole" resultType="String">
+        select
+            c.name
+        from
+            t_staff a,
+            t_user_role b,
+            t_role c
+        where
+            a.id=b.userid
+        and b.roleid=c.id
+        and a.username=#{username}
+    </select>
+
+    <select id="getPermission" resultType="java.lang.String">
+        select e.href from
+      t_staff a,
+      t_user_role b,
+      t_role_permission d,
+      t_permission e
+      where a.id=b.userid
+        and b.roleid=d.roleid
+        and d.permissionid=e.id
+        and a.username=#{username}
+    </select>
+
+</mapper>

@@ -3,8 +3,8 @@
 <mapper namespace="com.jk.mapper.StaffMapper">
     <!--void addStaff(Staff staff);-->
     <insert id="addStaff">
-        insert into t_staff(username,account,password,headimg) value(
-        #{username}, #{account}, #{password},#{headimg})
+        insert into t_staff(username,account,password,headimg,phone) value(
+        #{username}, #{account}, #{password},#{headimg},#{phone})
     </insert>
     <!--List<Staff> getPageList(Staff staff);-->
     <select id="getPageList" resultType="com.jk.bean.Staff">
