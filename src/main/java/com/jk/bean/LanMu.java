@@ -8,5 +8,9 @@ public class LanMu {
     private Integer id;
 
     private String text;
+    private String tablename;
+
+    private String status;
+
 
 }
