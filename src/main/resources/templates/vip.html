@@ -36,7 +36,7 @@
                     {field: 'vippassword', title: '密码', width: 100, align: 'center'},
                     {field: 'vipheadimg', title: '会员头像', width: 100, align: 'center',
                         formatter: function (value,row)
-                        {return '<a href="javascript:void(0)" onclick="queryimg('+row.id+')"><img width="100px" height="70px" src="/upload/' + value + '"/></a>'
+                        {return '<a href="javascript:void(0)" onclick="queryimg('+row.id+')"><img width="100px" height="70px" src="' + value + '"/></a>'
                         }
                     },
                     {field: 'sds', title: '操作', width: 150, align: 'center',
@@ -49,6 +49,26 @@
                 ]]
             });
         }
+        //条查
+        function queryCondition(){
+            $("#form2").form('submit');
+            $('#dg').datagrid('load',serializeFrom2Obj($("#form2")));
+        }
+        function serializeFrom2Obj (obj) {
+            var o = {};
+            var a = obj.serializeArray();//[{name:'price',value='12'},{},{}]
+            $.each(a, function() {
+                if (o[this.name] !== undefined) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
         function update(id){
             $.ajax({
                 url:"/vip/queryVip",
@@ -90,15 +110,16 @@
 
         function clearFormData(){
             $("#form-id").form('clear'); //清空form组件内容
+            $("#testimg").html("");
         }
         //图片控件
         function preFile() {
-//上传插件
+          //上传插件
             $("#uploadify").uploadify({
                 //插件自带  不可忽略的参数
                 'swf': '/js/uploadify/uploadify.swf',
                 //前台请求后台的url 不可忽略的参数                //*****要修改路经 !!!!!!!!!
-                'uploader': '/staff/upload',
+                'uploader': '/vip/upload',
                 //给div的进度条加背景 不可忽略
                 'queueID': 'fileQueue',
                 //上传文件文件名 !!!!!!!与后台接口参数名字需要完全一致!!!!!!!!
@@ -124,9 +145,8 @@
                 },
                 //成功回调函数 file：文件对象。data后台输出数据
                 'onUploadSuccess': function (file, data, response) {
-                    var imgurl = "/upload/" + data;
                     //给img框赋值进行展示
-                    $("#testimg").attr("src", imgurl);
+                    $("#testimg").attr("src", data);
                     //给隐藏的文本框赋值 传到后台
                     $('#hideImg').val(data);
                 }
@@ -151,6 +171,10 @@
 <body>
 <table id="dg" fit=true></table>
 <div id="tb">
+    <form id="form2">
+        <input  name="vipname" class="easyui-textbox" style="width:180px;height: 22px">
+    </form>
+    <a  onclick="queryCondition()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">搜索</a>
     <a id="btn" onclick="xinzeng()" class="easyui-linkbutton" data-options="iconCls:'icon-add'" target="_blank">新增员工</a>
 </div>
 <div id="dialog"  class="easyui-dialog" title="My Dialog" style="width:800px;height:300px;"
@@ -180,7 +204,7 @@
         <input name="vipheadimg" id="hideImg" type="hidden">
         <input id="uploadify" type="file">
         <div id="fileQueue"></div>
-        <img id="testimg" width="66">
+        <img id="testimg" name="vipheadimg" width="66">
         <!-- 上传完显示的图片  -->
     </form>
 </div>

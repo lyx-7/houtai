@@ -3,7 +3,13 @@
 <mapper namespace="com.jk.mapper.TuiJianMapper">
 <!--List<TuiJian> getTuiJianList(TuiJian tuiJian);-->
     <select id="getTuiJianList" resultType="com.jk.bean.TuiJian">
-        select * from t_tuijian where state = 0
+        select * from t_tuijian
+        <where>
+            state = 0
+            <if test="tname!=null and tname!=''">
+                and	tname like '%${tname}%'
+            </if>
+        </where>
     </select>
 
     <!--void updateToNoPass(Integer id);-->

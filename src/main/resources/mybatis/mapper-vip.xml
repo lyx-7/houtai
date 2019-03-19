@@ -3,12 +3,17 @@
 <mapper namespace="com.jk.mapper.VipMapper">
 
     <insert id="addVip">
-        insert into t_vip(vipname,vipaccount,vippassword,vipheadimg) value(
-        #{vipname}, #{vipaccount}, #{vippassword},#{vipheadimg})
+        insert into t_vip(vipname,vipaccount,vippassword,vipheadimg,role,status) value(
+        #{vipname}, #{vipaccount}, #{vippassword},#{vipheadimg},1,1)
     </insert>
 
     <select id="getPageList" resultType="com.jk.bean.Vip">
         select * from t_vip
+        <where>
+            <if test="vipname!=null and vipname!=''">
+                vipname like '%${vipname}%'
+            </if>
+        </where>
     </select>
 
     <delete id="delVip">

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class ShiroController {
 
+
     @RequestMapping("query")
     public String query(){
         return "query";

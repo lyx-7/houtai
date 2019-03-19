@@ -26,12 +26,16 @@
 		  b.title,c.text
 		from
 		  t_lanmu_biaoti a,${tablename} b,t_lanmu c
-		where
-		  a.biaotiid = b.id
-		and
-		  a.lanmuid = c.id
-		and
-		  a.tablename = #{tablename}
+		<where>
+				a.biaotiid = b.id
+				and
+				a.lanmuid = c.id
+				and
+				a.tablename = #{tablename}
+			<if test="text!=null and text!=''">
+				and	c.text like '%${text}%'
+			</if>
+		</where>
 	</select>
 
     <!--getPageList-->

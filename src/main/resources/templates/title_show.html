@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--jquery-->
+    <script src="/js/jquery-2.1.1.min.js"></script>
+
+    <!--引入easyui的样式 -->
+    <link rel="stylesheet" href="/js/easyui1.5/themes/default/easyui.css" type="text/css"></link>
+    <link rel="stylesheet" href="/js/easyui1.5/themes/icon.css" type="text/css"></link>
+    <script type="text/javascript" src="/js/easyui1.5/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/js/easyui1.5/locale/easyui-lang-zh_CN.js"></script>
+
+    <script type="text/javascript" th:inline="none">
+        $(function () {
+
+            startDatagried();
+            $('#dialog').dialog('close'); //关闭新增对话框
+            addInfo();//新增
+            $('#dialogPoi').dialog('close'); //关闭 poi对话框
+            $('#dialog_style').dialog('close'); //关闭 模板对话框
+
+        })
+//-----------------------------------------查询
+        function startDatagried() {
+            $('#dg').datagrid({
+                url: '/newsTitle/queryTitleInfo',
+                pagination:true, //开启分页工具栏
+                striped: true, //斑马线效果
+                toolbar: '#tbtn',
+                checkOnSelect: false, //false，当用户仅在点击该复选框的时候才会呗选中或取消
+                pageList:[1,6,12,20],//下拉框条数
+                pageSize: 12, //默认显示多少条 这个值一定在pagelist中存在
+                columns: [[
+                    {field: 'aaa', title: 'bbb', width: 50, checkbox: true}, //全选反选
+                    {field: 'id', title: '编号', width: 100, align: 'center'},
+                    {field: 'tname', title: '标题条目', width: 100, align: 'center'},
+                    {field: 'turl', title: '跳转', width: 200, align: 'center'},
+                    {field: 'sds', title: '操作', width: 200, align: 'center',
+                        formatter: function (value, row, index) {
+                            var temp = "<a href='javascript:void(0)' onclick='deletes(" + row.id + ")' >删除</a>";
+                                temp += " |<a href='javascript:void(0)' onclick='getById(" + row.id + ")' >修改</a>";
+                            return temp;
+                        }
+                    }
+                ]]
+            });
+        }
+//------------------------------------------------删除
+        function deleteDemo() {
+            var rows = $("#dg").datagrid('getChecked');
+            var ids = '';
+            $.each(rows, function (index, obj) {
+                ids += ids == '' ? obj.id : "," + obj.id;
+            });
+            deletes(ids);
+        }
+
+        function deletes(ids) {
+
+            $.ajax({
+                url: "/newsTitle/deletes",
+                type: "POST",
+                data: {ids: ids},
+                success: function (result) {
+                    //数据库已经删除成功 页面需要更新
+                    $("#dg").datagrid('reload');//reload 会重新请求数据 但会停留在当前页
+                    //load 会跑到第一页
+                    $.messager.show({
+                        title: '消息',
+                        msg: '删除成功!!',
+                        timeout: 1000,//提示框出来的时间
+                        showType: 'slide'
+                    });
+                },
+                error: function () {
+                    alert("ajax访问失败了,查看控制台");
+                }
+            });
+        }
+//-------------------------------------------------------------新增------------------------
+        function add_btn(){
+            $("#dialog").dialog('open');//打开一个对话框------
+            clearFormData();//新增之后 清除表单数据
+        }
+
+        function submitData(){//进行提交表单
+            $("#form_id").form('submit');//调用表单控件   easyui的控件
+        }
+//--(使普通表单成为ajax提交方式的表单)表单数据提交到后台----
+        function addInfo(){
+            $("#form_id").form({
+                url:"/newsTitle/addInfo",
+                onSubmit: function(){ //在提交之前触发，返回false可以终止提交
+                    // editor.sync();//异步增加数据 一定先执行同步方法 不然没有值  有kinded的时候
+                },
+                success:function(data){   //在表单提交成功以后触发 data是后台返回的数据
+
+                    $("#dialog").dialog('close'); //关闭对话框
+                    $("#dg").datagrid('reload');// //重新加载数据     reload 会重新请求数据 但会停留在当前页
+                    clearFormData();//新增之后 清除表单数据
+                }
+            });
+        }
+ //---------------------------------- 清除表单数据
+        function clearFormData(){
+            $("#form_id").form('clear'); //清空form组件内容
+        }
+
+//---------------------------------------------------修改-------------------------------------------
+        function getById(id){
+            $.ajax({
+                url:"/newsTitle/getById",
+                type:"POST",
+                data:{id:id},
+                success:function(data){
+                    $("#dialog").dialog('open');
+
+                    $("#form_id").form('load',data);
+                },
+                error:function(){
+                    alert("ajax访问失败了,查看控制台");
+                }
+            });
+        }
+        //条查
+        function queryCondition(){
+            $("#form2").form('submit');
+            $('#dg').datagrid('load',serializeFrom2Obj($("#form2")));
+        }
+        function serializeFrom2Obj (obj) {
+            var o = {};
+            var a = obj.serializeArray();//[{name:'price',value='12'},{},{}]
+            $.each(a, function() {
+                if (o[this.name] !== undefined) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
+
+    </script>
+
+
+
+</head>
+<body>
+<div id="tbtn">
+    <form id="form2">
+        <input  name="tname" class="easyui-textbox" style="width:180px;height: 22px">
+    </form>
+    <a  onclick="queryCondition()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">搜索</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" onClick="add_btn()"
+       data-options="iconCls:'icon-add'">添加</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" onClick="deleteDemo()"
+       data-options="iconCls:'icon-cancel'">批量删除</a>
+</div>
+<!--列表展示信息 -->
+<table id="dg" fit=true></table>
+
+<!-- 新增对话框窗口 -->
+<div id="dialog"  class="easyui-dialog" title="My Dialog" style="width:800px;height:300px;"
+     data-options="iconCls:'icon-save',resizable:true,modal:true,
+			buttons:[{
+				text:'保存',
+				iconCls:'icon-ok',
+				handler:function(){
+					submitData();//调用另一个方法
+				}
+			},{
+				text:'取消',
+				iconCls:'icon-clear',
+				handler:function(){
+					clearFormData();//新增之后 清除表单数据
+					$('#dialog').dialog('close'); //关闭对话框
+				}
+			}]">
+
+    <!-- 表单数据 -->
+    <form id="form_id">
+        <input type="text" name="id"><br>
+        条目名称:<input name="tname" class="easyui-textbox"><br>
+        跳转路径:<input name="turl" class="easyui-textbox"><br>
+    </form>
+</div>
+
+</body>
+</html>
