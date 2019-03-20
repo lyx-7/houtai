@@ -5,6 +5,11 @@
     <!-- List<TitleInfo> queryTitleInfo(TitleInfo titleInfo);-->
     <select id="queryTitleInfo" resultType="com.jk.bean.TitleInfo">
      select * from t_titleinfo
+        <where>
+            <if test="tname!=null and tname!=''">
+                tname like '%${tname}%'
+            </if>
+        </where>
     </select>
     <!--void addInfo();-->
     <insert id="addInfo">

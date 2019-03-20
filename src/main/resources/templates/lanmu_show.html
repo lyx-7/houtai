@@ -126,11 +126,36 @@
             });
             $("#form-id").form('submit');
         }
+        //条查
+        function queryCondition(){
+            $("#form2").form('submit');
+            $('#dg').datagrid('load',serializeFrom2Obj($("#form2")));
+        }
+        function serializeFrom2Obj (obj) {
+            var o = {};
+            var a = obj.serializeArray();//[{name:'price',value='12'},{},{}]
+            $.each(a, function() {
+                if (o[this.name] !== undefined) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
     </script>
+
 </head>
 
 <body>
 <div id="tb">
+    <form id="form2">
+        <input  name="text" class="easyui-textbox" style="width:180px;height: 22px">
+    </form>
+    <a  onclick="queryCondition()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">搜索</a>
     <a id="btn" onclick="xinzeng()" class="easyui-linkbutton" data-options="iconCls:'icon-add'" target="_blank">新增栏目</a>
 </div>
 <table id="dg" fit=true></table>

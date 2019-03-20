@@ -11,6 +11,11 @@
    -->
     <select id="queryAdvert" resultType="com.jk.bean.Advert">
         select * from t_advert
+        <where>
+            <if test="adtitle!=null and adtitle!=''">
+                adtitle like '%${adtitle}%'
+            </if>
+        </where>
     </select>
 
     <insert id="addInfo">

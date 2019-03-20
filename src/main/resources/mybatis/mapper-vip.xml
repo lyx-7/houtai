@@ -9,6 +9,11 @@
 
     <select id="getPageList" resultType="com.jk.bean.Vip">
         select * from t_vip
+        <where>
+            <if test="vipname!=null and vipname!=''">
+                vipname like '%${vipname}%'
+            </if>
+        </where>
     </select>
 
     <delete id="delVip">

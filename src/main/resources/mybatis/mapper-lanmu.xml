@@ -4,6 +4,11 @@
 
     <select id="getPageList" resultType="com.jk.bean.LanMu">
         select * from t_lanmu
+        <where>
+            <if test="text!=null and text!=''">
+                text like '%${text}%'
+            </if>
+        </where>
     </select>
     <select id="getTree" resultType="com.jk.bean.Title">
         select * from t_title

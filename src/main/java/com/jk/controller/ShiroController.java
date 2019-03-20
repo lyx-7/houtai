@@ -32,6 +32,11 @@ public class ShiroController {
         return "login";
     }
 
+    @RequestMapping("toRegist")
+    public String toRegist(){
+        return "regist";
+    }
+
     @RequestMapping("reject")
     public String reject(){
         return "reject";
