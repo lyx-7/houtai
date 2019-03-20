@@ -25,8 +25,8 @@
 
     <!--添加到 娱乐表 -->
     <insert id="addToYule">
-        insert into t_yule(title,vipid,time,status,imgurl,tlink)
-        values (#{title},#{vipid},#{time},1,#{imgurl},#{tlink})
+        insert into t_yule(title,vipid,time,status,imgurl,tlink,tablename)
+        values (#{title},#{vipid},#{time},1,#{imgurl},#{tlink},#{tablename})
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
             SELECT LAST_INSERT_ID()
         </selectKey>
