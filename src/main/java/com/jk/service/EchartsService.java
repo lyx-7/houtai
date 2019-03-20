@@ -21,4 +21,8 @@ public interface EchartsService {
     List<String> getrzy();
 
     List<Count> getyonghujifen();
+
+    List<Count> getyonghuyue();
+
+    List<Count> getfangwenwenzhangcishu();
 }

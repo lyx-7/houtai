@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>柱状图</title>
+    <!-- 引入 echarts.js -->
+    <script src="/js/jquery-2.1.1.min.js"></script>
+    <script src="/js/echarts.js"></script>
+
+</head>
+
+<body>
+
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 700px;height:500px;"></div>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+    //发起get请求
+    $.get('/echarts/getfangwenwenzhangcishu', function (data) {
+        myChart.setOption({
+            xAxis: {data: data.categories},
+            series: [{data: data.data}]
+        })
+    });
+    // 指定图表的配置项和数据
+    myChart.setOption({
+        title: {
+            text: '每个用户访问文章次数',
+            link:"https://www.baidu.com",
+            subtext:"第四组"
+        },
+        tooltip: {
+
+            formater:"云博客员工"
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                dataZoom: {
+                    yAxisIndex: 'none'
+                },
+                dataView: {readOnly: false},
+                magicType: {type: ['line', 'bar']},
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        legend: {
+            data: ['次数']
+        },
+        xAxis: {
+            data: []
+        },
+        yAxis: {},
+        series: [{
+            name: '次数',
+            type: 'bar',
+            data: []
+        }]
+    });
+
+</script>
+</body>
+</html>

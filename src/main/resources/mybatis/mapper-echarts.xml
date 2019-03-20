@@ -131,6 +131,14 @@
     <select id="getyonghujifen" resultType="com.jk.bean.Count">
         select p.vipname as name,j.jifen as value from t_vip p,t_jifen j where p.id = j.userid
     </select>
+    <!--用户积分-->
+    <select id="getyonghuyue" resultType="com.jk.bean.Count">
+        select p.vipname as name,j.yue as value from t_vip p,t_jifen j where p.id = j.userid
+    </select>
+
+    <select id="getfangwenwenzhangcishu" resultType="com.jk.bean.Count">
+        select count(d.titleid) as value ,v.vipname as name from t_dianjiliang d,t_vip v where d.vipid = v.id GROUP BY vipname
+    </select>
 
 
 </mapper>

@@ -42,7 +42,7 @@ public class TuiJianServiceImpl implements TuiJianService {
         yule.setVipname(tui.getTauthor());//推荐人
         yule.setStatus(tui.getState());//状态
         yule.setTime(tui.getTuitime());//推荐时间
-
+        yule.setTablename("t_yule");
 
         tuiJianMapper.addToYule(yule);//添加到  娱乐表
 

@@ -175,5 +175,44 @@ public class EchartsController {
         System.out.println(params);
         return params;
     }
+    /**
+     * 用户积分
+     */
+    @RequestMapping("getyonghuyue")
+    @ResponseBody
+    public Map<String, Object> getyonghuyue() {
+        Map<String, Object> params = new HashMap<>();
+        ArrayList<String> a = new ArrayList<>();
+        ArrayList<Integer> b = new ArrayList<>();
+        List<Count> count = echartsService.getyonghuyue();
+        for (Count count1 : count) {
+            a.add(count1.getName());
+            b.add(Integer.valueOf(count1.getValue()));
+        }
+        params.put("categories", a);
+        params.put("data", b);
+        System.out.println(params);
+        return params;
+    }
+
+    /**
+     * 用户访问文章次数
+     */
+    @RequestMapping("getfangwenwenzhangcishu")
+    @ResponseBody
+    public Map<String, Object> getfangwenwenzhangcishu() {
+        Map<String, Object> params = new HashMap<>();
+        ArrayList<String> a = new ArrayList<>();
+        ArrayList<Integer> b = new ArrayList<>();
+        List<Count> count = echartsService.getfangwenwenzhangcishu();
+        for (Count count1 : count) {
+            a.add(count1.getName());
+            b.add(Integer.valueOf(count1.getValue()));
+        }
+        params.put("categories", a);
+        params.put("data", b);
+        System.out.println(params);
+        return params;
+    }
 
 }

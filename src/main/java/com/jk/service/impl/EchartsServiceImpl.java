@@ -58,4 +58,14 @@ public class EchartsServiceImpl implements EchartsService {
     public List<Count> getyonghujifen() {
         return echartsMapper.getyonghujifen();
     }
+
+    @Override
+    public List<Count> getyonghuyue() {
+        return echartsMapper.getyonghuyue();
+    }
+
+    @Override
+    public List<Count> getfangwenwenzhangcishu() {
+        return echartsMapper.getfangwenwenzhangcishu();
+    }
 }
