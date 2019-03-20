@@ -11,4 +11,5 @@ public class Vip {
   String vipheadimg;
   Integer role;
   Integer status;
+  Integer vipState;
 }

@@ -42,13 +42,14 @@ public class TuiJianServiceImpl implements TuiJianService {
         yule.setVipname(tui.getTauthor());//推荐人
         yule.setStatus(tui.getState());//状态
         yule.setTime(tui.getTuitime());//推荐时间
-        yule.setTablename("t_yule");
+        yule.setTablename("t_yule");//表名
 
         tuiJianMapper.addToYule(yule);//添加到  娱乐表
 
         LanMuBiaoTi lb = new LanMuBiaoTi();
         lb.setLanmuid(tui.getLanmu()); //栏目
         lb.setBiaotiid(yule.getId());//标题
+        lb.setTablename(yule.getTablename());//表名
         tuiJianMapper.addToLanmuBiaoti(lb); //添加到 栏目标题 表
 
 

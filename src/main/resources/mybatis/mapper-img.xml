@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.mapper.ImgMapper">
+
+    <!--List<ImgInfo> queryImgInfo(ImgInfo imgInfo);-->
+    <select id="queryImgInfo" resultType="com.jk.bean.ImgInfo">
+        select * from t_imginfo
+    </select>
+    <!--void addImgInfo(ImgInfo imgInfo);-->
+    <insert id="addImgInfo">
+        insert into t_imginfo(imgName,imgUrl,tablename,titleid)
+        values(#{imgName},#{imgUrl},#{tablename},#{titleid})
+    </insert>
+    <!--ImgInfo getImgById(Integer id);-->
+    <select id="getImgById" resultType="com.jk.bean.ImgInfo">
+        select * from t_imginfo where id=#{id}
+    </select>
+    <!--void updateImgInfo(ImgInfo imgInfo);-->
+    <update id="updateImgInfo">
+        update t_imginfo set imgName=#{imgName},imgUrl=#{imgUrl},
+        tablename=#{tablename},titleid=#{titleid} where id=#{id}
+    </update>
+    <!--void deleteImg(String ids);-->
+    <delete id="deleteImg">
+        delete from t_imginfo where id in (${ids})
+    </delete>
+
+
+</mapper>

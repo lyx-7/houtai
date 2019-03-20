@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 导入 jquery包  -->
+    <script src="/js/jquery-2.1.1.min.js"></script>
+    <!--引入easyui的样式 -->
+    <!--引入easyui的样式 -->
+    <link rel="stylesheet" href="/js/easyui1.5/themes/default/easyui.css" type="text/css"></link>
+    <link rel="stylesheet" href="/js/easyui1.5/themes/icon.css" type="text/css"></link>
+    <script type="text/javascript" src="/js/easyui1.5/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/js/easyui1.5/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" th:inline="none">
+        $(function(){
+            getGongGao();
+            $("#dd").dialog('close');
+        })
+        //-----------------------------------------查询
+        function getGongGao() {
+            $('#dg').datagrid({
+                url:'/getGongGao',
+                pagination:true, //开启分页工具栏
+                striped: true, //斑马线效果
+                toolbar: '#tb',
+                checkOnSelect: false, //false，当用户仅在点击该复选框的时候才会呗选中或取消
+                pageList:[4,10,20,30,40],//下拉框条数
+                pageSize: 20, //默认显示多少条 这个值一定在pagelist中存在
+                columns: [[
+                    {field: 'id', title: '编号', width:'10%', align: 'center'},
+                    {field: 'text', title: '用户名', width: '20%', align: 'center'},
+                    {field: 'status', title: '状态', width: '20%', align: 'center'},
+                ]]
+            });
+        }
+        //1 新增按钮调的方法
+        function openDialog(){
+            $("#dd").dialog("open")
+            clear()
+        }
+
+        //2 新增方法
+        function addputonggg(){
+            $('#form').form({
+                url:"/addputonggg",
+                success:function(data){   //在表单提交成功以后触发 data是后台返回的数据
+                    //关闭对话框
+                    $("#dd").dialog('close');
+                    //重新加载数据
+                    $("#dg").datagrid('reload');//reload 会重新请求数据 但会停留在当前页
+
+                    //表单成功提交 清除表单里面的数据
+                    clear();
+                }
+            });
+            $("#form").form('submit')
+        }
+
+        //4 清除表单数据
+        function clear(){
+            $("#form").form('clear')
+        }
+
+    </script>
+</head>
+<body>
+<div id="tb">
+    <a  onclick="openDialog()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">发布公告</a>
+</div>
+<table id="dg" fit="true"></table>
+<div class="easyui-dialog" id="dd" style="width:600px;height:300px"
+     data-options="title:'我的对话框',modal:true,
+			buttons:[{
+				text:'保存',
+				handler:function(){
+				 addputonggg();
+				}
+			},{
+				text:'关闭',
+				handler:function(){
+				 $('#dd').dialog('close');
+				}
+			}]">
+    <form id="form" method="post">
+        公告内容：<input name="text" class="easyui-textbox" style="width:300px">
+    </form>
+</div>
+</body>
+</html>

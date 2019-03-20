@@ -14,16 +14,14 @@
 
     <script type="text/javascript" th:inline="none">
         $(function () {
-
             startDatagried();
             $('#dialog').dialog('close'); //关闭新增对话框
             addInfo();//新增
-
         })
-//-----------------------------------------查询
+        //-----------------------------------------查询
         function startDatagried() {
             $('#dg').datagrid({
-                url: '/advert/queryAdvertList',
+                url: '/lunbo/queryImgInfo',
                 pagination:true, //开启分页工具栏
                 striped: true, //斑马线效果
                 toolbar: '#tbtn',
@@ -31,58 +29,23 @@
                 pageList:[1,6,12,20],//下拉框条数
                 pageSize: 12, //默认显示多少条 这个值一定在pagelist中存在
                 columns: [[
-                    {field: 'sbsbsb', title: 'sbsbsb', width: 50, checkbox: true}, //全选反选
+                    {field: 'aaa', title: 'bbb', width: 50, checkbox: true}, //全选反选
                     {field: 'id', title: '编号', width: 100, align: 'center'},
-                    {field: 'adtitle', title: '广告标题', width: 100, align: 'center'},
-                    {field: 'adimg', title: '广告图片', width: 100, align: 'center'},
-                    {field: 'adlink', title: '图片链接', width: 200, align: 'center'},
-                    {field: 'adlocation', title: '图片位置', width: 200, align: 'center',
+                    {field: 'imgName', title: '图片名称', width: 100, align: 'center'},
+                    {field: 'imgUrl', title: '图片路径', width: 200, align: 'center'},
+                    {field: 'tablename', title: '表名', width: 100, align: 'center'},
+                    {field: 'titleid', title: '文章id', width: 200, align: 'center'},
+                    {field: 'sds', title: '操作', width: 200, align: 'center',
                         formatter: function (value, row, index) {
-                            if(value==1){
-                                return "左上";
-                            }
-                            if(value==2){
-                                return "左下";
-                            }
-                            if(value==3){
-                                return "右上";
-                            }
-                            if(value==4){
-                                return "右下";
-                            }
-                        }
-                    },
-                    {field: 'adstate', title: '广告状态', width: 200, align: 'center',
-                        formatter: function (value, row, index) {
-                            if(value==1){
-                                return "显示";
-                            }else {
-                                return "隐藏";
-                            }
-                        }
-                    },
-                    {field: 'ccc', title: '操作', width: 200, align: 'center',
-                        formatter: function (value, row, index) {
-
-                            var temp ="";
-
-                            if(row.adstate==0){
-                                temp += " |<a  href='javascript:void(0)' onclick='upOrDown(" + row.id + ",1)' >显示</a>";
-                            }
-                            if(row.adstate==1){
-                                temp += " |<a  href='javascript:void(0)' onclick='upOrDown(" + row.id + ",0)' >隐藏</a>";
-                            }
-
-                            temp += " |<a  href='javascript:void(0)' onclick='deletes(" + row.id + ")' >删除</a>";
-                            temp += " |<a  href='javascript:void(0)' onclick='getById(" + row.id + ")' >修改</a>";
+                            var temp = "<a href='javascript:void(0)' onclick='deletes(" + row.id + ")' >删除</a>";
+                            temp += " |<a href='javascript:void(0)' onclick='getById(" + row.id + ")' >修改</a>";
                             return temp;
-
                         }
                     }
                 ]]
             });
         }
-//------------------------------------------------删除
+        //------------------------------------------------删除
         function deleteDemo() {
             var rows = $("#dg").datagrid('getChecked');
             var ids = '';
@@ -95,7 +58,7 @@
         function deletes(ids) {
 
             $.ajax({
-                url: "/advert/deletes",
+                url: "/lunbo/deleteImg",
                 type: "POST",
                 data: {ids: ids},
                 success: function (result) {
@@ -114,7 +77,7 @@
                 }
             });
         }
-//-------------------------------------------------------------新增------------------------
+        //-------------------------------------------------------------新增------------------------
         function add_btn(){
             $("#dialog").dialog('open');//打开一个对话框------
             clearFormData();//新增之后 清除表单数据
@@ -123,10 +86,10 @@
         function submitData(){//进行提交表单
             $("#form_id").form('submit');//调用表单控件   easyui的控件
         }
-//--(使普通表单成为ajax提交方式的表单)表单数据提交到后台----
+        //--(使普通表单成为ajax提交方式的表单)表单数据提交到后台----
         function addInfo(){
             $("#form_id").form({
-                url:"/advert/addInfo",
+                url:"/lunbo/addImgInfo",
                 onSubmit: function(){ //在提交之前触发，返回false可以终止提交
                     // editor.sync();//异步增加数据 一定先执行同步方法 不然没有值  有kinded的时候
                 },
@@ -137,16 +100,18 @@
                     clearFormData();//新增之后 清除表单数据
                 }
             });
+
         }
- //---------------------------------- 清除表单数据
+        //---------------------------------- 清除表单数据
         function clearFormData(){
             $("#form_id").form('clear'); //清空form组件内容
         }
 
-//---------------------------------------------------修改-------------------------------------------
+        //---------------------------------------------------修改-------------------------------------------
         function getById(id){
+
             $.ajax({
-                url:"/advert/getById",
+                url:"/lunbo/getImgById",
                 type:"POST",
                 data:{id:id},
                 success:function(data){
@@ -160,29 +125,11 @@
             });
         }
 
-//---------------------------上下架
-        function upOrDown(id,flag){
-            $.ajax({
-            	url:"/advert/upOrDown",
-            	type:"POST",
-            	data:{id:id,flag:flag},
-            	success:function(result){
-
-                    startDatagried();
-            	},
-            	error:function(){
-            		alert("失败了");
-            	}
-            });
-        }
     </script>
-
-
 
 </head>
 <body>
 <div id="tbtn">
-
     <a href="javascript:void(0)" class="easyui-linkbutton" onClick="add_btn()"
        data-options="iconCls:'icon-add'">添加</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" onClick="deleteDemo()"
@@ -191,7 +138,7 @@
 <!--列表展示信息 -->
 <table id="dg" fit=true></table>
 
-<!-- 新增对话框窗口 -->
+<!-- 对话框窗口 -->
 <div id="dialog"  class="easyui-dialog" title="My Dialog" style="width:800px;height:300px;"
      data-options="iconCls:'icon-save',resizable:true,modal:true,
 			buttons:[{
@@ -211,18 +158,11 @@
 
     <!-- 表单数据 -->
     <form id="form_id">
-        <input type="text" name="id"><br>
-        广告标题:<input name="adtitle" class="easyui-textbox"><br>
-        广告图片:<input name="adimg" class="easyui-textbox"><br>
-        广告链接:<input name="adlink" class="easyui-textbox"><br>
-        广告位置:<select id="cc" name="adlocation" class="easyui-combobox" style="width:200px;">
-                    <option value="aa">-请选择-</option>
-                    <option value="1">左上</option>
-                    <option value="2">左下</option>
-                    <option value="3">右上</option>
-                    <option value="4">右下</option>
-                </select>
-
+        <input type="hidden" name="id"><br>
+        图片名称:<input name="imgName" class="easyui-textbox"><br>
+        图片路径:<input name="imgUrl" class="easyui-textbox"><br>
+        表名:<input name="tablename" class="easyui-textbox"><br>
+        标题id:<input name="titleid" class="easyui-textbox"><br>
     </form>
 </div>
 

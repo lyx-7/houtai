@@ -5,11 +5,6 @@
 	<!-- 分页查询 -->
 	<select id="getPageList" resultType="com.jk.bean.Role">
 		select * from t_role
-		<where>
-			<if test="name!=null and name!=''">
-				and	name like '%${name}%'
-			</if>
-		</where>
 	</select>
 
 	<!-- 添加 -->
