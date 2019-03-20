@@ -36,7 +36,7 @@
                     {field: 'vippassword', title: '密码', width: 100, align: 'center'},
                     {field: 'vipheadimg', title: '会员头像', width: 100, align: 'center',
                         formatter: function (value,row)
-                        {return '<a href="javascript:void(0)" onclick="queryimg('+row.id+')"><img width="100px" height="70px" src="/upload/' + value + '"/></a>'
+                        {return '<a href="javascript:void(0)" onclick="queryimg('+row.id+')"><img width="100px" height="70px" src="' + value + '"/></a>'
                         }
                     },
                     {field: 'sds', title: '操作', width: 150, align: 'center',
@@ -57,7 +57,7 @@
                 success:function(data){
                     $("#dialog").dialog('open');
                     $("#form-id").form("load",data);
-                    $("#testimg").prop("src","/upload/"+data.vipheadimg)
+                    $("#testimg").prop("src",""+data.vipheadimg)
                 },
                 error:function(){
                     alert("ajax访问失败了,查看控制台");
@@ -153,7 +153,7 @@
 <div id="tb">
     <a id="btn" onclick="xinzeng()" class="easyui-linkbutton" data-options="iconCls:'icon-add'" target="_blank">新增员工</a>
 </div>
-<div id="dialog"  class="easyui-dialog" title="My Dialog" style="width:800px;height:300px;"
+<div id="dialog"  class="easyui-dialog" title="云新闻" style="width:800px;height:300px;"
      data-options="iconCls:'icon-save',resizable:true,modal:true,
 			buttons:[{
 				text:'保存',
