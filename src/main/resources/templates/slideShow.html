@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jquery-2.1.1.min.js"></script>
+    <!--引入easyui的样式 -->
+    <link rel="stylesheet" href="/js/easyui1.5/themes/default/easyui.css" type="text/css"></link>
+    <link rel="stylesheet" href="/js/easyui1.5/themes/icon.css" type="text/css"></link>
+    <script type="text/javascript" src="/js/easyui1.5/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/js/easyui1.5/locale/easyui-lang-zh_CN.js"></script>
+    <script src="/js/easyui1.5/jquery.easyui.min.js"></script>
+    <script src="/js/uploadify/jquery.uploadify.min.js"></script>
+    <link rel="stylesheet" href="/js/uploadify/uploadify.css">
+</head>
+<script type="text/javascript" th:inline="none">
+    $(function () {
+        startDatagried();
+    })
+    //-----------------------------------------查询
+    function startDatagried() {
+        $('#dg').datagrid({
+            url:'/getSlide',
+            pagination:true, //开启分页工具栏
+            striped: true, //斑马线效果
+            toolbar: '#tb',
+            checkOnSelect: false, //false，当用户仅在点击该复选框的时候才会呗选中或取消
+            pageList:[1,3,6,12],//下拉框条数
+            pageSize: 6, //默认显示多少条 这个值一定在pagelist中存在
+            columns: [[
+                {field: 'aaa', title: 'bbb', width: 50, checkbox: true}, //全选反选
+                {field: 'id', title: '编号', width: 50, align: 'center'},
+                {field: 'title', title: '模块标题', width: 100, align: 'center'},
+                {field: 'status', title: '状态', width: 100, align: 'center',
+                    formatter: function (value, row) {
+                    if(value==1){
+                        return "显示"
+                    }
+                    if(value==2){
+                            return "隐藏"
+                        }
+                    }
+                },
+                {field: 'hhh', title: '操作', width: 150, align: 'center',
+                    formatter: function (value, row) {
+                       if(row.status==1){
+                           return "<input  type='button' onclick='updateToPass("+row.id+","+row.status+")' value='模块隐藏'>"
+                       }
+                        if(row.status==2){
+                            return "<input  type='button' onclick='updateToPass("+row.id+","+row.status+")' value='模块显示'>"
+                        }
+                    }
+                }
+            ]]
+        });
+    }
+    //显示隐藏
+    function updateToPass(id,status) {
+        $.ajax({
+            url:"/updateSlide",
+            type:"POST",
+            data:{id:id,status:status},
+            success:function(result){
+                alert("已更改");
+                startDatagried();
+            },
+            error:function(){
+                alert("失败了");
+            }
+        });
+    }
+
+
+
+</script>
+</head>
+
+<body>
+<div id="tb">
+    <form id="form2">
+        <input  name="tname" class="easyui-textbox" style="width:180px;height: 22px">
+    </form>
+    <a  onclick="queryCondition()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">搜索</a>
+</div>
+<table id="dg" fit=true></table>
+
+</body>
+</html>

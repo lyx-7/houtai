@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.mapper.SlideStstusMapper">
+  <select id="getSlide" resultType="com.jk.bean.SlideShow">
+       select * from t_slideshow
+  </select>
+
+    <update id="updateSlide">
+        update t_slideshow set
+      <if test="status==1">
+          status=2 where id=#{id}
+      </if>
+        <if test="status==2">
+            status=1 where id=#{id}
+        </if>
+    </update>
+</mapper>
