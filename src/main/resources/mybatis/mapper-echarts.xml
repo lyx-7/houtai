@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.mapper.EchartsMapper">
+
+    <!--查询月关注量-->
+    <select id="getYueGuanZhu" resultType="com.jk.bean.Count">
+        SELECT
+            a.co as value,
+            v.vipname as name
+        FROM
+            t_vip v
+        LEFT JOIN (
+            SELECT
+                g.*, count(*) co
+            FROM
+                t_guanzhu g
+            WHERE
+                DATE_FORMAT(createtime, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m')
+            GROUP BY
+                g.authorid
+        ) a ON v.id = a.authorid
+        ORDER BY
+            a.co DESC
+    </select>
+
+    <!--查询总关注量-->
+    <select id="getZongGuanZhu" resultType="com.jk.bean.Count">
+        select
+          b.sl as value ,
+          a.vipname as name
+        from
+          t_vip a LEFT JOIN
+        (select
+          authorid,
+          count(*) sl
+        from
+          t_guanzhu
+        GROUP BY
+          authorid) b
+        ON
+          a.id=b.authorid
+        ORDER BY b.sl DESC
+    </select>
+    <!--日点击量-->
+    <select id="getRidj" resultType="com.jk.bean.Count">
+        SELECT
+            title AS NAME,a.ss As VALUE
+        FROM
+            (SELECT
+                    COUNT(djl) ss,
+                    titleid,
+                    tablename
+                FROM
+                    t_dianjiliang d
+                where d.time=CURDATE()
+                GROUP BY
+                    tablename) a,t_title b
+        WHERE
+            a.tablename = b.tablename
+        ORDER BY
+            a.ss DESC
+    </select>
+    <!--周点击量-->
+    <select id="getZhoudj" resultType="com.jk.bean.Count">
+        SELECT
+            title AS NAME,
+            a.ss As VALUE
+        FROM
+            (
+                SELECT
+                    COUNT(djl) ss,
+                    titleid,
+                    tablename
+                FROM
+                    t_dianjiliang d
+                where YEARWEEK(date_format(time,'%Y-%m-%d')) = YEARWEEK(now())
+                GROUP BY
+                    tablename
+            ) a,
+            t_title b
+        WHERE
+            a.tablename = b.tablename
+        ORDER BY
+            a.ss DESC
+    </select>
+    <!--月点击量-->
+    <select id="getYuedj" resultType="com.jk.bean.Count">
+        SELECT
+            title AS NAME,
+            a.ss As VALUE
+        FROM
+            (
+                SELECT
+                    COUNT(djl) ss,
+                    titleid,
+                    tablename
+                FROM
+                    t_dianjiliang d
+                where DATE_FORMAT(time, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )
+                GROUP BY
+                    tablename
+            ) a,
+            t_title b
+        WHERE
+            a.tablename = b.tablename
+        ORDER BY
+            a.ss DESC
+    </select>
+
+    <select id="getVip" resultType="com.jk.bean.Count">
+        SELECT count(*) AS value,
+            (
+                CASE t.role
+                WHEN 1 THEN
+                    '会员'
+                WHEN 2 THEN
+                    '非会员'
+                ELSE
+                    '未知'
+                END
+            ) AS name
+        FROM
+            t_vip t
+        GROUP BY name
+    </select>
+    <!--点击量名字-->
+    <select id="getrzy" resultType="java.lang.String">
+        SELECT title AS name FROM t_title
+    </select>
+    <!--用户积分-->
+    <select id="getyonghujifen" resultType="com.jk.bean.Count">
+        select p.vipname as name,j.jifen as value from t_vip p,t_jifen j where p.id = j.userid
+    </select>
+
+
+</mapper>

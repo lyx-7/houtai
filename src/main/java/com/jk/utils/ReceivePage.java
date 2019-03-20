@@ -1,7 +1,7 @@
 /** 
  * <pre>项目名称:easyui_demo 
  * 文件名称:ReceivePage.java 
- * 包名:com.jk.pojo 
+ * 包名:com.js.pojo
  * 创建日期:2018-11-29上午10:46:42 
  * Copyright (c) 2018, wzstart@126.com All Rights Reserved.</pre> 
  */  

@@ -11,7 +11,7 @@
         values (#{loginAcct},#{userPswd},#{userName},#{email},now()
         )
     </insert>
-    <select id="getloginAcct" resultType="com.jk.bean.Vip">
+    <select id="getloginAcct" resultType="com.js.bean.Vip">
 
         select * from t_user where loginAcct=#{loginAcct}
     </select>-->
