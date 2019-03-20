@@ -3,13 +3,7 @@
 <mapper namespace="com.jk.mapper.TuiJianMapper">
 <!--List<TuiJian> getTuiJianList(TuiJian tuiJian);-->
     <select id="getTuiJianList" resultType="com.jk.bean.TuiJian">
-        select * from t_tuijian
-        <where>
-            state = 0
-            <if test="tname!=null and tname!=''">
-                and	tname like '%${tname}%'
-            </if>
-        </where>
+        select * from t_tuijian where state = 0
     </select>
 
     <!--void updateToNoPass(Integer id);-->
@@ -25,8 +19,8 @@
 
     <!--添加到 娱乐表 -->
     <insert id="addToYule">
-        insert into t_yule(title,vipid,time,status,imgurl,tlink)
-        values (#{title},#{vipid},#{time},1,#{imgurl},#{tlink})
+        insert into t_yule(title,vipid,time,status,imgurl,tlink,tablename)
+        values (#{title},#{vipid},#{time},1,#{imgurl},#{tlink},#{tablename})
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
             SELECT LAST_INSERT_ID()
         </selectKey>

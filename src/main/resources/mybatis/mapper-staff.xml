@@ -9,11 +9,6 @@
     <!--List<Staff> getPageList(Staff staff);-->
     <select id="getPageList" resultType="com.jk.bean.Staff">
         select * from t_staff
-        <where>
-            <if test="username!=null and username!=''">
-                username like '%${username}%'
-            </if>
-        </where>
     </select>
     <!--void delStaff(String id);-->
     <delete id="delStaff">

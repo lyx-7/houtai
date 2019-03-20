@@ -1,7 +1,7 @@
 /**
  * <pre>项目名称:power
  * 文件名称:Constant.java
- * 包名:com.jk.utils
+ * 包名:com.js.utils
  * 创建日期:2018年12月20日上午10:11:04
  * Copyright (c) 2018, wzstart@126.com All Rights Reserved.</pre>
  */

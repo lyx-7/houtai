@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jk.mapper.JinYanMapper">
     <select id="getJInYan" resultType="com.jk.bean.Vip">
-        select * from t_vip a
+        select a.*,b.vipState  from  t_vip a LEFT JOIN t_vipstate b on  a.id=b.userid
          <where>
              <if test="vipname!=null and vipname!=''">
                  a.vipname like '%${vipname}%'
              </if>
-             <if test="role!=null and role!=0">
-                 a.role=#{role}
+             <if test="vipState!=null and vipState!=0">
+                 b.vipState=#{vipState}
              </if>
          </where>
     </select>
