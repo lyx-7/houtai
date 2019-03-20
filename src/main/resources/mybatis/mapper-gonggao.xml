@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.mapper.GongGaoMapper">
+    <select id="getGongGao" resultType="com.jk.bean.GongGao">
+        select * from t_putonggonfgao
+    </select>
+    <select id="getGGao" resultType="com.jk.bean.GongGao">
+        select * from t_zhongdagonggao
+    </select>
+    <insert id="addputonggg">
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into t_putonggonfgao(text,status) value(#{text},1)
+    </insert>
+    <insert id="addGGao">
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into t_zhongdagonggao(text,status,starttime,endtime) value(#{text},1,#{starttime},#{endtime})
+    </insert>
+</mapper>

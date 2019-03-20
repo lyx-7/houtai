@@ -1,6 +1,10 @@
 package com.jk.mapper;
 
+import com.jk.bean.JiFen;
 import com.jk.bean.JianYi;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -16,4 +20,10 @@ public interface JianYiMapper {
  void jieShou(JianYi jy);
 
  void juJue(JianYi jy);
+ @Select("select * from t_jifen where userid=#{userid}")
+ JiFen getJiFen(Integer userid);
+ @Insert("insert into t_jifen(jifen,yue,userid) value(50,0,#{userid})")
+ void addjiFen2(Integer userid);
+@Update("update t_jifen set jifen=jifen+50 where userid=#{userid}")
+ void updatejiFen2(Integer userid);
 }

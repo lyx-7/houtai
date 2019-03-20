@@ -6,6 +6,7 @@ package com.jk.service.impl;/**
  */
 
 import com.github.pagehelper.PageHelper;
+import com.jk.bean.JiFen;
 import com.jk.bean.JianYi;
 import com.jk.mapper.JianYiMapper;
 import com.jk.service.JianYiService;
@@ -38,6 +39,12 @@ public class JianYiServiceImpl implements JianYiService {
  @Override
  public void jieShou(JianYi jy) {
    jianYiMapper.jieShou(jy);
+  JiFen jf=jianYiMapper.getJiFen(jy.getUserid());
+  if(jf==null){
+   jianYiMapper.addjiFen2(jy.getUserid());
+  }else{
+   jianYiMapper.updatejiFen2(jy.getUserid());
+  }
  }
 
  @Override

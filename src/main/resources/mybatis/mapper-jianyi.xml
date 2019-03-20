@@ -13,9 +13,9 @@
         </where>
     </select>
     <update id="jieShou">
-        update t_jianyi set status=1 where id=#{id}
+        update t_jianyi set status=1 where vipyuluid=#{vipyuluid}
     </update>
     <delete id="juJue">
-        delete from t_jianyi where id=#{id}
+        delete from t_jianyi where vipyuluid=#{vipyuluid}
     </delete>
 </mapper>

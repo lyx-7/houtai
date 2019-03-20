@@ -29,9 +29,9 @@
                 columns: [[
                     {field: 'id', title: '编号', width:'10%', align: 'center'},
                     {field: 'vipname', title: '用户名', width: '20%', align: 'center'},
-                    {field: 'role', title: '类型', width: '20%', align: 'center',
+                    {field: 'vipState', title: '类型', width: '20%', align: 'center',
                         formatter: function (value, row) {
-                        if(value==1){
+                        if(value==2){
                             return "普通用户";
                         }else{
                             return "VIP用户";

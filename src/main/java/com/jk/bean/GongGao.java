@@ -13,9 +13,10 @@ import lombok.Data;
  * &lt;/pre&gt;    
  */
 @Data
-public class JianYi {
- Integer vipyuluid;
+public class GongGao {
+ Integer id;
  String text;
- Integer userid;
- Integer status=0;
+ Integer status;
+ String starttime;
+ String endtime;
 }
