@@ -32,10 +32,10 @@
     formatter: function (value, row) {
         if(row.status==0){
             var temp = '<a  href="javascript:void(0)" onclick="jieshou(' + row.vipyuluid + ','+row.userid+')" >接受</a>';
-            temp+= '|<a  href="javascript:void(0)" onclick="jujue(' + row.vipyuluid + ')" >拒绝</a>';
+            temp+= '|<a  href="javascript:void(0)" onclick="juJue(' + row.vipyuluid + ')" >拒绝</a>';
             return temp;
         }else{
-            var temp2 = '<a  href="javascript:void(0)" onclick="jujue(' + row.vipyuluid + ')" >删除</a>';
+            var temp2 = '<a  href="javascript:void(0)" onclick="juJue(' + row.vipyuluid + ')" >删除</a>';
             return temp2;
         }
     }
