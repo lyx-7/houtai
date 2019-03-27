@@ -12,4 +12,5 @@ public class Vip {
   Integer role;
   Integer status;
   Integer vipState;
+  private Integer pwdcount=0;//支付密码次数
 }

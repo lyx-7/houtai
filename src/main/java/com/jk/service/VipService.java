@@ -15,4 +15,6 @@ public interface VipService {
     String delVip(String id);
 
     Vip queryVip(Integer id);
+
+    void changeState(Integer id);
 }

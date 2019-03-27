@@ -46,4 +46,9 @@ public class VipServiceImpl implements VipService {
 
         return VipMapper.queryVip(id);
     }
+
+    @Override
+    public void changeState(Integer id) {
+        VipMapper.changeState(id);
+    }
 }

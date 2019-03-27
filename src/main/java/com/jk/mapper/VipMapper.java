@@ -14,4 +14,6 @@ public interface VipMapper {
     void updateVip(Vip vip);
 
     Vip queryVip(Integer id);
+
+    void changeState(Integer id);
 }

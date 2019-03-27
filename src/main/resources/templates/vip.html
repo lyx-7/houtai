@@ -32,17 +32,31 @@
                     {field: 'aaa', title: 'bbb', width: 50, checkbox: true}, //全选反选
                     {field: 'id', title: '编号', width: 50, align: 'center'},
                     {field: 'vipname', title: '会员名称', width: 100, align: 'center'},
-                    {field: 'vipaccount', title: '会员名称', width: 100, align: 'center'},
+                    {field: 'vipaccount', title: '账号', width: 100, align: 'center'},
                     {field: 'vippassword', title: '密码', width: 100, align: 'center'},
                     {field: 'vipheadimg', title: '会员头像', width: 100, align: 'center',
                         formatter: function (value,row)
                         {return '<a href="javascript:void(0)" onclick="queryimg('+row.id+')"><img width="100px" height="70px" src="' + value + '"/></a>'
                         }
                     },
+                    {field: 'pwdcount', title: '账号状态', width: 100, align: 'center',
+                        formatter: function(value,row,index){
+                            if (value<3){
+                                return "正常";
+                            } else {
+                                return "账号异常";
+                            }
+                        }
+
+                    },
                     {field: 'sds', title: '操作', width: 150, align: 'center',
                         formatter: function (value, row) {
                             var temp = "<a href='javascript:void(0)' onclick='update(" + row.id + ")' >修改</a>";
-                            temp += "|<a href='javascript:void(0)' onclick='del(" + row.id + ")' >删除</a>";
+                                temp += " |<a href='javascript:void(0)' onclick='del(" + row.id + ")' >删除</a>";
+                            if(row.pwdcount==3){
+                                temp += " |<a href='javascript:void(0)' onclick='changeState(" + row.id + ")' >解除异常</a>";
+                            }
+
                             return temp;
                         }
                     }
@@ -143,6 +157,20 @@
             $("#form-id").form('submit');
         }
 
+        //解除账号异常
+        function changeState(id){
+            $.ajax({
+            	url:"/vip/changeState",
+            	type:"POST",
+            	data:{id:id},
+            	success:function(result){
+                    startDatagried();
+            	},
+            	error:function(){
+            		alert("失败了");
+            	}
+            });
+        }
     </script>
 
 

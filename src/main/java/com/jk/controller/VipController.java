@@ -1,7 +1,6 @@
 package com.jk.controller;
 
 import com.jk.bean.Vip;
-import com.jk.utils.FileUtil;
 import com.jk.utils.OssUpFileUtil;
 import com.jk.utils.ReceivePage;
 import com.jk.utils.SendPage;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @Controller
@@ -95,4 +93,15 @@ public class VipController {
         Vip imgList= VipService.queryVip(id);
         return imgList;
     }
+
+    /**
+     * 解除账号异常
+     */
+    @RequestMapping("changeState")
+    @ResponseBody
+    public String changeState(Integer id){
+        VipService.changeState(id);
+        return "";
+    }
+
 }

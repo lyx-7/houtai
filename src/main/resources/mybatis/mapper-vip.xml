@@ -22,4 +22,9 @@
     <update id="updateVip">
         update t_vip set vipname=#{vipname},vipaccount=#{vipaccount},vippassword=#{vippassword},vipheadimg=#{vipheadimg} where id=#{id}
     </update>
+
+    <!--void changeState(Integer id);-->
+    <update id="changeState">
+        update t_vip set pwdcount=0 where id=#{id}
+    </update>
 </mapper>
