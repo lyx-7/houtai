@@ -26,4 +26,6 @@ public interface JianYiMapper {
  void addjiFen2(Integer userid);
 @Update("update t_jifen set jifen=jifen+50 where userid=#{userid}")
  void updatejiFen2(Integer userid);
+ @Insert("insert into t_pinglun_state(time,vipid,info,pluserid) value(sysdate(),#{userid},#{text},0)")
+ void addpinglunStart(JianYi jy);
 }

@@ -22,6 +22,7 @@ public class TiYuServiceImpl implements TiYuService {
 
     @Override
     public void addTiYu(LanMuBiaoTi lanMuBiaoTi) {
+        LanMuBiaoTi l=tiYuMapper.queryLanMu(lanMuBiaoTi.getBiaotiid());
         tiYuMapper.addTiYu(lanMuBiaoTi);
     }
 

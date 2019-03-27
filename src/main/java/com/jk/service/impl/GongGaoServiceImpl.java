@@ -12,6 +12,7 @@ import com.jk.service.GongGaoService;
 import com.jk.utils.ReceivePage;
 import com.jk.utils.SendPage;
 import org.springframework.stereotype.Service;
+import sun.security.util.Length;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -47,6 +48,10 @@ public class GongGaoServiceImpl implements GongGaoService {
   List<GongGao> count=gongGaoMapper.getGGao();
   PageHelper.startPage(rp.getPage(),rp.getRows());
   List<GongGao> list=gongGaoMapper.getGGao();
+  for (GongGao gongGao : list) {
+   gongGao.setStarttime(gongGao.getStarttime().substring(0, gongGao.getStarttime().length()-2));
+   gongGao.setEndtime(gongGao.getEndtime().substring(0, gongGao.getEndtime().length()-2));
+  }
   SendPage sp=new SendPage(count.size(),list);
   return sp;
  }

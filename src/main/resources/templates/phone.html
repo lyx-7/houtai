@@ -24,7 +24,6 @@
     <!-- layer -->
     <script src="/js/layer/layer.js"></script>
     <script type="text/javascript" th:inline="none">
-
         var temp = null;//为了其他方法能改变temp的值
         function yzm() {
             //alert(111);
@@ -35,11 +34,9 @@
                 success: function (result) {
                     var data=result.code;
                     if (data == 1) {
-
                         layer.alert("<font color='red'>发送成功,注意查看手机</font>", {icon: 1});
                         $("#sendCode").prop("disabled", true);//true禁用
                         temp = setInterval("changeBtnText()", 1000);//setInterval可以设置每隔多少毫米调取一个方法
-
                     }
                     if (data == 2) {
                         layer.alert("<font color='red'>验证码已发送,请查看手机</font>", {icon: 3});
@@ -61,10 +58,7 @@
                 }
             });
         }
-
-
         var time = 10;
-
         function changeBtnText() {
             // alert(1111);
             time--;
@@ -76,7 +70,6 @@
                 clearInterval(temp)//关闭倒计时
             }
         }
-
         function to_submit(){
             $.ajax({
                 url:"/phone/login",
@@ -84,6 +77,9 @@
                 async:true,
                 data:$("#form_id").serialize(),
                 success:function(result){
+
+                    console.log(result)
+                    alert(result)
                     if(result==1){
                         location.href="/tree/toView?url=index";
                         alert("成功")
@@ -103,8 +99,6 @@
                 }
             });
         }
-
-
     </script>
 </head>
 <body>
@@ -122,12 +116,12 @@
         <div class="blank_01"></div>
         <form id="form_id" action="/phone/login">
             <div class="input1">
-                <input type="text" class="input1_01" name="account"   placeholder="请输入账号"/>
+                <input type="text" class="input1_01" name="account"   placeholder="  请输入用户名"/>
             </div>
             <div class="blank_01"></div>
             <div class="blank_01"></div>
             <div class="input2">
-                <input type="text" class="input1_01" name="phone"   placeholder="请输入手机号"/>
+                <input type="text" class="input1_01" name="phone"   placeholder="  请输入手机号"/>
             </div>
 
             <div class="blank_01"></div>
@@ -143,7 +137,6 @@
             <button class="red_button" type="submit">登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录</button>
             <!--<a href="#" class="aline">
                 <div  onclick="to_submit()">
-
                 </div>
             </a>-->
 

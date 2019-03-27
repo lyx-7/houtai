@@ -14,9 +14,9 @@ public class LoginServiceImpl implements LoginService {
 
 
     @Override
-    public Staff getLogin(Staff users) {
+    public Staff getLogin(String username, String password) {
 
-        return loginMapper.getLogin(users);
+        return loginMapper.getLogin(username,password);
     }
 
    /* @Override

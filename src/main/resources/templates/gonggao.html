@@ -29,7 +29,17 @@
                 columns: [[
                     {field: 'id', title: '编号', width:'10%', align: 'center'},
                     {field: 'text', title: '用户名', width: '20%', align: 'center'},
-                    {field: 'status', title: '状态', width: '20%', align: 'center'},
+                    {field: 'status', title: '状态', width: '20%', align: 'center',
+                        formatter: function (value, row) {
+                        if(value==0){
+                            return "已过期";
+                        }
+                        else{
+                            return "正在使用";
+                        }
+
+                        }
+                    },
                 ]]
             });
         }

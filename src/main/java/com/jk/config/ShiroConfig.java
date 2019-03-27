@@ -66,6 +66,9 @@ public class ShiroConfig {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
 
         // map的值为anon shiro不会进行拦截
+        filterChainDefinitionMap.put("/phone/toRegist", "anon");
+        //filterChainDefinitionMap.put("/login/getMongo", "anon");
+        filterChainDefinitionMap.put("/phone/addstaff", "anon");
         filterChainDefinitionMap.put("/toLogin", "anon");
         filterChainDefinitionMap.put("/phone/sendCode", "anon");
         filterChainDefinitionMap.put("/phone/login", "anon");

@@ -26,12 +26,12 @@
         function startDatagried() {
             $('#dg').datagrid({
                 url: '/login/getMongo',
-                //pagination:true, //开启分页工具栏
+                pagination:true, //开启分页工具栏
                 striped: true, //斑马线效果
                 toolbar: '#tbtn',
                 checkOnSelect: false, //false，当用户仅在点击该复选框的时候才会呗选中或取消
-                //pageList:[1,3,6,12],//下拉框条数
-                //pageSize: 6, //默认显示多少条 这个值一定在pagelist中存在
+                pageList:[1,3,6,12],//下拉框条数
+                pageSize: 6, //默认显示多少条 这个值一定在pagelist中存在
                 columns: [[
                     {field: 'aaa', title: 'bbb', width: 50, checkbox: true}, //全选反选
                     {field: 'id', title: '编号', width: 100, align: 'center'},
@@ -41,38 +41,6 @@
                     {field: 'method', title: '访问的方法名', width: 200, align: 'center'},
                     {field: 'url', title: 'url', width: 200, align: 'center'},
                 ]]
-            });
-        }
-        //------------------------------------------------删除
-        function deleteDemo() {
-            var rows = $("#dg").datagrid('getChecked');
-            var ids = '';
-            $.each(rows, function (index, obj) {
-                ids += ids == '' ? obj.id : "," + obj.id;
-            });
-            deletes(ids);
-        }
-
-        function deletes(ids) {
-
-            $.ajax({
-                url: "/title/deletes",
-                type: "POST",
-                data: {ids: ids},
-                success: function (result) {
-                    //数据库已经删除成功 页面需要更新
-                    $("#dg").datagrid('reload');//reload 会重新请求数据 但会停留在当前页
-                    //load 会跑到第一页
-                    $.messager.show({
-                        title: '消息',
-                        msg: '删除成功!!',
-                        timeout: 1000,//提示框出来的时间
-                        showType: 'slide'
-                    });
-                },
-                error: function () {
-                    alert("ajax访问失败了,查看控制台");
-                }
             });
         }
         //-------------------------------------------------------------新增------------------------
@@ -124,6 +92,45 @@
             });
         }
 
+
+        //------------------------------------------------删除
+        function deleteMore() {
+
+            var rows = $("#dg").datagrid('getChecked');
+            var ids = '';
+            $.each(rows, function (index, obj) {
+                ids += ids == '' ? obj.id : "," + obj.id;
+            });
+            deleteOne(ids);
+        }
+
+        function deleteOne(ids) {
+
+            alert("ssss")
+            $.ajax({
+                url: "/login/deleteLogs",
+                type: "POST",
+                data: {ids: ids},
+                success: function (result) {
+                    //数据库已经删除成功 页面需要更新
+                    $("#dg").datagrid('reload');//reload 会重新请求数据 但会停留在当前页
+                    //load 会跑到第一页
+                    $.messager.show({
+                        title: '消息',
+                        msg: '删除成功!!',
+                        timeout: 1000,//提示框出来的时间
+                        showType: 'slide'
+                    });
+                },
+                error: function () {
+                    alert("ajax访问失败了,查看控制台");
+                }
+            });
+        }
+
+
+
+
         //------------------------------------------------------poi导出
         function toExport(){
             var arr = $('#dg').datagrid('getChecked');
@@ -131,78 +138,18 @@
                 $.messager.alert("提示","请选择要导出的数据!");
             }else{
                 // 定义存放id数组，前端直接往后台传入数组类型，到mybatis xml文件直接批量删除操作
-                var ids = [];
+                var ids = "";
                 for ( var i in arr) {
                     // 将选中的每行数据遍历获取id放入数组当中
-                    ids.push(arr[i].id);
+                    //ids.push(arrUser[i].id);
+                    ids+=","+arr[i].id;
                 }
+                ids = ids.substr(1);
                 $.messager.confirm('提示','你确定导出'+arr.length+'条记录吗?',function(r){
-                    if(r){
-                        $.ajax({
-                            url:'/title/exportExcel',
-                            data:{id:ids},
-                            success:function(data){
-                                $.messager.alert('提示','导出成功');
-                                startDatagried();
-                            },
-                            error:function(){
-                                alert("导出失败");
-                            }
-                        })
-                    }
+                    location.href="/login/exportExcel?ids="+ids
                 });
             }
         }
-        //------------------------------------------------------poi导入
-        function poi_btn(){
-            $("#dialogPoi").dialog('open');//打开一个对话框------
-            //clearFormData();//新增之后 清除表单数据
-        }
-
-        function toImport() {
-            var formData = new FormData($("#form_poi")[0]);
-
-            $.ajax({
-                url:"/title/importExcel",
-                data:formData,
-                type:"POST",
-                cache: false,
-                contentType: false,
-                processData: false,
-                success:function(result){
-                    if(result==1){
-                        $.messager.alert('提示','导入成功');
-                    }else{
-                        $.messager.alert('提示','文件格式不符,请输入 .xls 结尾的文件');
-                    }
-                    $('#dialogPoi').dialog('close'); //关闭poi对话框
-                    startDatagried();
-                },
-                error:function(){
-                    alert("出错啦!!!");
-                }
-            })
-        }
-        //-----打开上传文件模板 拼接表格
-        function openStyleDialog(){
-            var content = '';
-            $('#dialog_style').dialog('open');
-            content = '<tr align="center"><td colspan="5">标题</td></tr>';
-            content +='<tr align="center"><td>字段名:id(必填项)</td><td>字段名(比如:name)</td>\n' +
-                '<td>字段名</td><td>字段名</td><td>.....</td></tr>';
-            for (var i = 0; i <3 ; i++) {
-                content +=' <tr align="center">\n' +
-                    '<td>'+(i+1)+'</td>\n' +
-                    '<td>工藤新'+(i+1)+'</td>\n' +
-                    '<td>.....</td>\n' +
-                    '<td>.....</td>\n' +
-                    '<td>.....</td>\n' +
-                    '</tr>';
-            }
-            $("#tableId").html(content);
-        }
-
-
     </script>
 
 
@@ -210,7 +157,10 @@
 </head>
 <body>
 <div id="tbtn">
-
+    <a href="javascript:void(0)" class="easyui-linkbutton" onClick="deleteMore()"
+       data-options="iconCls:'icon-cancel'">批量删除</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" onClick="toExport()"
+       data-options="iconCls:'icon-undo'">导出</a>
 
 
 </div>

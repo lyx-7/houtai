@@ -19,4 +19,6 @@ public interface TiYuMapper {
     List<LanMuBiaoTi> getPageList(LanMuBiaoTi lanMuBiaoTi);
 
     LanMuBiaoTi queryList(LanMuBiaoTi lanMuBiaoTi);
+
+    LanMuBiaoTi queryLanMu(Integer biaotiid);
 }

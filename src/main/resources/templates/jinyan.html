@@ -31,10 +31,10 @@
                     {field: 'vipname', title: '用户名', width: '20%', align: 'center'},
                     {field: 'vipState', title: '类型', width: '20%', align: 'center',
                         formatter: function (value, row) {
-                        if(value==2){
-                            return "普通用户";
-                        }else{
+                        if(value==1){
                             return "VIP用户";
+                        }else{
+                            return "普通用户";
                         }
                         }
                     },
@@ -46,7 +46,7 @@
                         }else{
                             type="禁言";
                         }
-                            var temp = '<a id="jy'+row.id+'" href="javascript:void(0)" onclick="jinYan('+row.role+',' + row.id + ')" >'+type+'</a>';
+                            var temp = '<a id="jy'+row.id+'" href="javascript:void(0)" onclick="jinYan('+row.vipState+',' + row.id + ')" >'+type+'</a>';
                             return temp;
                         }
                     }
@@ -55,7 +55,7 @@
         }
         /*禁言*/
         function jinYan(type,id){
-            if(type==1){
+            if(type!=1){
                 var bb=0;
                 var aa=$("#jy"+id).html();
                 if(aa=="禁言"){

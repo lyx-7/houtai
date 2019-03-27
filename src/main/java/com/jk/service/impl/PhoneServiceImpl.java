@@ -19,4 +19,16 @@ public class PhoneServiceImpl implements PhoneService {
     public Staff getloginAcct(String loginAcct) {
         return phoneMapper.getloginAcct(loginAcct);
     }
+
+    @Override
+    public Staff loginAcct(Staff staff) {
+
+
+        return phoneMapper.loginAcct(staff);
+    }
+
+    @Override
+    public void toRegist(Staff staff) {
+        phoneMapper.toRegist(staff);
+    }
 }

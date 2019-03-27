@@ -4,7 +4,7 @@
 
     <select id="getLogin" resultType="com.jk.bean.Staff">
 
-        select * from t_staff where account=#{account} and password = #{password}
+        select * from t_staff where username=#{username} and password = #{password}
     </select>
     <!--<insert id="toRegist">
         insert into t_user (loginAcct,userPswd,userName,email,createTime)

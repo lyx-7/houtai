@@ -1,5 +1,7 @@
 package com.jk.controller;
 
+import com.jk.bean.Staff;
+import com.jk.service.LoginService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -9,11 +11,15 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 @Controller
 public class ShiroController {
 
+
+    @Resource
+    private LoginService loginService;
 
     @RequestMapping("query")
     public String query(){
@@ -41,6 +47,10 @@ public class ShiroController {
     public String toLogin(String username, String password, HttpSession session){
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username,password);
+        Staff usersFromdb = loginService.getLogin(username,password);
+
+        session.setAttribute("user",usersFromdb);
+
 
         try {
             subject.login(usernamePasswordToken);

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.mapper.VipStartMapper">
+    <select id="getVipStart" resultType="com.jk.bean.vipStart">
+        select a.vipname username,b.* from t_vip a,t_vipstate b where a.id=b.userid
+    </select>
+    <select id="getVipStartById" resultType="com.jk.bean.vipStart">
+        select a.vipname username,b.* from t_vip a,t_vipstate b where a.id=b.userid and b.id=#{id}
+    </select>
+    <update id="addVipStart">
+        update t_vipstate b set
+        <if test="endTime!=null and endTime!=''">
+            b.endTime=#{endTime}
+        </if>
+        where b.id=#{id}
+    </update>
+</mapper>

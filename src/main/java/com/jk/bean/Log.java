@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Date;
 
 @Data
-@Document(collection = "log")
+@Document(collection = "loginlog")
 public class Log {
 
     private String id;

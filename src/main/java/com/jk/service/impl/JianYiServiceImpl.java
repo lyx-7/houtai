@@ -39,6 +39,7 @@ public class JianYiServiceImpl implements JianYiService {
  @Override
  public void jieShou(JianYi jy) {
    jianYiMapper.jieShou(jy);
+  jianYiMapper.addpinglunStart(jy);
   JiFen jf=jianYiMapper.getJiFen(jy.getUserid());
   if(jf==null){
    jianYiMapper.addjiFen2(jy.getUserid());
